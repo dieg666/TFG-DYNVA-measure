@@ -34,8 +34,9 @@ func start_game():
 	var index = $HUD.state
 	var swing = $HUD.swing
 	run_mode = $HUD.mode
+	var rotationIteration = 5
 	$HUD.hide()
-	$Octo.start(positions[index], velocities[index],swing,run_mode)
+	$Octo.start(positions[index], velocities[index],swing,run_mode,rotationIteration)
 	_on_Octo_debug_update()
 	
 func _process(_delta):
@@ -48,6 +49,8 @@ func _on_Octo_debug_update():
 	if $HUD/CheckBox.pressed:
 		$DebugMode.velocity = $Octo.speed
 		$DebugMode.size = $Octo.size
+		$DebugMode.rotationDegree = $Octo.actualRotation
+		$DebugMode.userRotationSuccess = $Octo.userRotationSuccess
 		emit_signal("show_debug_stats")
 	else:
 		$DebugMode.hide()
