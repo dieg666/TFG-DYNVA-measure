@@ -11,7 +11,7 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 margin_left = -38.5
-margin_top = -68.0
+margin_top = -86.0
 margin_right = 38.5
 
 [node name="Label" type="Label" parent="HBoxContainer"]
@@ -40,3 +40,10 @@ margin_right = 77.0
 margin_bottom = 68.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Success: No"
+
+[node name="Label5" type="Label" parent="HBoxContainer"]
+margin_top = 72.0
+margin_right = 77.0
+margin_bottom = 86.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Score: "

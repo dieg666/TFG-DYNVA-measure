@@ -22,4 +22,5 @@ anchor_bottom = 1.0
 
 [connection signal="show_debug_stats" from="." to="DebugMode" method="show_debug_stats"]
 [connection signal="debug_update" from="Octo" to="." method="_on_Octo_debug_update"]
+[connection signal="exit" from="HUD" to="." method="exit"]
 [connection signal="start_game" from="HUD" to="." method="start_game"]
