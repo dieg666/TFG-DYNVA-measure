@@ -18,6 +18,15 @@ func _ready():
 #func _process(delta):
 #	pass
 
+func _on_HUD_show_override():
+	$YesOrNoVBoxContainer/Label.text = "Test '"+ text+ "' already exists. Do you want to override?"
+	$VBoxContainer.hide()
+	$YesOrNoVBoxContainer.visible = false
+	$YesOrNoVBoxContainer.call_deferred("set_visible", true)
+	$YesOrNoVBoxContainer.show()
+	pass # Replace with function body.
+
+
 
 func _on_Button_pressed():
 	if $VBoxContainer/LineEdit.text == '':
@@ -38,17 +47,7 @@ func _on_YesButton_pressed():
 
 
 func _on_NoButton_pressed():
-
 	$VBoxContainer.show()
 	$YesOrNoVBoxContainer.hide()
 	emit_signal("override", false)
 	$VBoxContainer/LineEdit.text = ''
-
-
-func _on_HUD_show_override():
-	$YesOrNoVBoxContainer/Label.text = "Test '"+ text+ "' already exists. Do you want to override?"
-	$VBoxContainer.hide()
-	visible = false
-	call_deferred("set_visible", true)
-	$YesOrNoVBoxContainer.show()
-	pass # Replace with function body.

@@ -11,7 +11,6 @@ func _ready():
 	if  save_game.file_exists("user://save.save"):
 		save_game.open("user://save.save", File.READ)
 		var node_data = parse_json(save_game.get_line())
-		print(node_data as Dictionary)
 		$HUD.initialize(node_data as Dictionary)
 		save_game.close()
 	$DebugMode.hide()
