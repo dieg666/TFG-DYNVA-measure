@@ -36,10 +36,10 @@ func _ready():
 		Vector2(screen_size.x,-screen_size.y)
 		]
 	
-func start_game():
-	var index = $HUD.state
-	var swing = $HUD.swing
-	run_mode = $HUD.mode
+func start_game(mode, list):
+	var index = int(mode[2])
+	var swing = int(mode[0])
+	run_mode = int(mode[1])
 	var rotationIteration = 5
 	$HUD.hide()
 	$Octo.start(positions[index], velocities[index],swing,run_mode,rotationIteration)

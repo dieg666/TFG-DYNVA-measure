@@ -6,13 +6,14 @@ var state = 0
 var swing = false
 var node_selected = ''
 var dict = {}
-
+var mode = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$Save.hide()
 	pass # Replace with function body.
 func _on_Start_pressed():
-	emit_signal("start_game")
+	print(_get_mode())
+	emit_signal("start_game", _get_mode(), get_values($PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ScrollContainer/HBoxContainer.get_children()))
 func _on_DirectionOptionButton_item_selected(index):
 	state = index
 func _on_CheckBox2_pressed():
