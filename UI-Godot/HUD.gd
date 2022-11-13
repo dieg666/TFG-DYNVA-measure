@@ -9,8 +9,11 @@ var dict = {}
 var mode = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	print ($PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2/ColorBackgroundButton.color)
 	$Save.hide()
 	pass # Replace with function body.
+func get_background_color():
+	return $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2/ColorBackgroundButton.color.to_html()
 func _on_Start_pressed():
 	print(_get_mode())
 	emit_signal("start_game", _get_mode(), get_values($PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ScrollContainer/HBoxContainer.get_children()))
@@ -54,17 +57,16 @@ func _on_VBoxContainer_delete():
 			$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ScrollContainer/HBoxContainer.remove_child(button)
 			renumerate_values($PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ScrollContainer/HBoxContainer.get_children())
 			return
-
 func getData():
 	return dict
-func change_to_mode(mode):
-	$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/Button.pressed = '0' != mode[0]
-	$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox.pressed = '0' == mode[1]
-	$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox2.pressed = '0' != mode[1]
-	$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/DirectionOptionButton.select(int(mode[2]))
-	
-func initialize(d):
+func change_to_mode(encoded_mode):
+	$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/Button.pressed = '0' != encoded_mode[0]
+	$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox.pressed = '0' == encoded_mode[1]
+	$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox2.pressed = '0' != encoded_mode[1]
+	$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/DirectionOptionButton.select(int(encoded_mode[2]))
+func initialize(d, color):
 	delete_children($PanelContainer/HBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer)
+	$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2/ColorBackgroundButton.color = color
 	dict = d
 	for item in d:
 		var buttons_pck = preload("res://UI-Godot/ButtonSave.tscn")
@@ -140,23 +142,21 @@ func _on_Control_save_is_done():
 		emit_signal("show_override")
 	else:
 		save(_get_mode(),value)
-
 func _on_Button4_pressed():
 	for item in $PanelContainer/HBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer.get_children():
 		if item.is_pressed():
-			dict.erase(item.text)
+			dict.erase(_get_key_from_dict(item.text))
 			$PanelContainer/HBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer.remove_child(item)
 			delete_children($PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ScrollContainer/HBoxContainer)
 			return 
-func save(mode, value):
+func save(encoded_mode, value):
 	$PanelContainer.show()
 	$CheckBox.show()
 	$Save.hide()
-	var buttons_pck = preload("res://UI-Godot/ButtonSave.tscn")
 	# to do change access mode to dictionary
 	dict.erase(_get_key_from_dict(value))
-	dict[mode+value] = get_values($PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ScrollContainer/HBoxContainer.get_children())
-	initialize(dict)
+	dict[encoded_mode+value] = get_values($PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ScrollContainer/HBoxContainer.get_children())
+	initialize(dict, $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2/ColorBackgroundButton.color)
 
 func _on_Save_override(choice):
 	if choice:	
@@ -167,8 +167,9 @@ func _on_Save_override(choice):
 		_save_test_pressed()
 
 func _get_mode():
-	var mode = ''
-	mode += str(int($PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/Button.pressed))
-	mode += str(int(!$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox.pressed))
-	mode += str(state)
-	return mode
+	var encoded_mode = ''
+	encoded_mode += str(int($PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/Button.pressed))
+	encoded_mode += str(int(!$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox.pressed))
+	encoded_mode += str(state)
+	return encoded_mode
+

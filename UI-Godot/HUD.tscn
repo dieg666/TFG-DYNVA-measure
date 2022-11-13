@@ -1,9 +1,11 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://UI-Godot/HUD.gd" type="Script" id=1]
-[ext_resource path="res://Art/Fonts/font.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://UI-Godot/buttonLeft.tres" type="DynamicFont" id=2]
 [ext_resource path="res://Art/Fonts/NotoEmoji-VariableFont_wght.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://UI-Godot/Save.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Fonts/font.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://Art/Fonts/font.ttf" type="DynamicFontData" id=6]
 
 [sub_resource type="StyleBoxFlat" id=7]
 
@@ -13,10 +15,6 @@
 [sub_resource type="DynamicFont" id=9]
 size = 50
 font_data = ExtResource( 3 )
-
-[sub_resource type="DynamicFont" id=6]
-size = 50
-font_data = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=4]
 font_data = ExtResource( 3 )
@@ -40,38 +38,76 @@ Button/styles/pressed = null
 size = 50
 font_data = ExtResource( 3 )
 
+[sub_resource type="DynamicFont" id=10]
+size = 50
+font_data = ExtResource( 5 )
+
+[sub_resource type="DynamicFont" id=14]
+size = 35
+font_data = ExtResource( 6 )
+
+[sub_resource type="DynamicFont" id=13]
+size = 49
+outline_color = Color( 0.278431, 0.278431, 0.278431, 1 )
+font_data = ExtResource( 6 )
+
+[sub_resource type="StyleBoxFlat" id=12]
+bg_color = Color( 0.138062, 0.304688, 0.189331, 1 )
+
+[sub_resource type="StyleBoxFlat" id=11]
+bg_color = Color( 0.27451, 0.631373, 0.384314, 1 )
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color( 0.164706, 0.317647, 0.0156863, 1 )
+border_blend = true
+
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_horizontal_guides_": [ 271.0 ]
 }
 
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_left = 0.029
+anchor_top = -0.194
+anchor_right = 0.029
+anchor_bottom = -0.194
+margin_left = -30.696
+margin_top = 116.4
+margin_right = 994.304
+margin_bottom = 717.4
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
 [node name="PanelContainer" type="PanelContainer" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -301.5
-margin_top = -127.0
-margin_right = 301.5
-margin_bottom = 127.0
+margin_left = -369.5
+margin_top = -188.0
+margin_right = 369.5
+margin_bottom = 188.0
 theme = SubResource( 8 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 596.0
-margin_bottom = 247.0
+margin_right = 732.0
+margin_bottom = 369.0
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/HBoxContainer"]
 margin_right = 120.0
-margin_bottom = 240.0
+margin_bottom = 362.0
 rect_min_size = Vector2( 120, 0 )
 
 [node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/HBoxContainer/VBoxContainer2"]
 margin_right = 120.0
-margin_bottom = 240.0
-rect_min_size = Vector2( 120, 240 )
+margin_bottom = 362.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 scroll_horizontal_enabled = false
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/HBoxContainer/VBoxContainer2/ScrollContainer"]
@@ -82,63 +118,63 @@ rect_min_size = Vector2( 120, 50 )
 [node name="VSeparator2" type="VSeparator" parent="PanelContainer/HBoxContainer"]
 margin_left = 124.0
 margin_right = 128.0
-margin_bottom = 240.0
+margin_bottom = 362.0
 rect_pivot_offset = Vector2( -794, -30 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/HBoxContainer"]
 margin_left = 132.0
-margin_right = 589.0
-margin_bottom = 240.0
+margin_right = 725.0
+margin_bottom = 362.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/HBoxContainer/VBoxContainer"]
-margin_right = 457.0
-margin_bottom = 86.0
+margin_right = 593.0
+margin_bottom = 76.0
 
 [node name="Button" type="CheckBox" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
 margin_right = 91.0
-margin_bottom = 86.0
+margin_bottom = 76.0
 custom_fonts/font = SubResource( 9 )
 text = "🔁"
 
 [node name="VSeparator" type="VSeparator" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
 margin_left = 95.0
 margin_right = 99.0
-margin_bottom = 86.0
+margin_bottom = 76.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
 margin_left = 103.0
-margin_right = 256.0
-margin_bottom = 86.0
+margin_right = 229.0
+margin_bottom = 76.0
 
 [node name="CheckBox" type="CheckBox" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
-margin_right = 153.0
-margin_bottom = 37.0
-custom_fonts/font = SubResource( 6 )
+margin_right = 126.0
+margin_bottom = 32.0
+custom_fonts/font = ExtResource( 2 )
 pressed = true
 text = "Speed Series"
 
 [node name="HSeparator" type="HSeparator" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 41.0
-margin_right = 153.0
-margin_bottom = 45.0
+margin_top = 36.0
+margin_right = 126.0
+margin_bottom = 40.0
 
 [node name="CheckBox2" type="CheckBox" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 49.0
-margin_right = 153.0
-margin_bottom = 86.0
-custom_fonts/font = SubResource( 6 )
+margin_top = 44.0
+margin_right = 126.0
+margin_bottom = 76.0
+custom_fonts/font = ExtResource( 2 )
 text = "Size Series"
 
 [node name="VSeparator2" type="VSeparator" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_left = 260.0
-margin_right = 264.0
-margin_bottom = 86.0
+margin_left = 233.0
+margin_right = 237.0
+margin_bottom = 76.0
 rect_pivot_offset = Vector2( -794, -30 )
 
 [node name="DirectionOptionButton" type="OptionButton" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_left = 268.0
-margin_right = 358.0
-margin_bottom = 86.0
+margin_left = 241.0
+margin_right = 331.0
+margin_bottom = 76.0
 rect_min_size = Vector2( 50, 0 )
 theme = SubResource( 5 )
 custom_fonts/font = SubResource( 3 )
@@ -147,63 +183,95 @@ items = [ "➡️", null, false, 0, null, "↘️", null, false, 1, null, "⬇�
 selected = 0
 
 [node name="VSeparator3" type="VSeparator" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_left = 362.0
-margin_right = 366.0
-margin_bottom = 86.0
+margin_left = 335.0
+margin_right = 339.0
+margin_bottom = 76.0
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 343.0
+margin_right = 506.0
+margin_bottom = 76.0
+
+[node name="Label" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+margin_right = 163.0
+margin_bottom = 29.0
+custom_fonts/font = SubResource( 10 )
+text = "Background Color"
+
+[node name="ColorBackgroundButton" type="ColorPickerButton" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+margin_top = 33.0
+margin_right = 163.0
+margin_bottom = 76.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = SubResource( 14 )
+text = "Background color"
+color = Color( 1, 1, 1, 1 )
+edit_alpha = false
+
+[node name="VSeparator4" type="VSeparator" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 510.0
+margin_right = 514.0
+margin_bottom = 76.0
 
 [node name="Start" type="Button" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_left = 370.0
-margin_right = 445.0
-margin_bottom = 86.0
+margin_left = 518.0
+margin_right = 593.0
+margin_bottom = 76.0
 rect_min_size = Vector2( 75, 0 )
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = SubResource( 13 )
+custom_styles/hover = SubResource( 12 )
+custom_styles/normal = SubResource( 11 )
 text = "Start"
 icon_align = 1
 
 [node name="HSeparator" type="HSeparator" parent="PanelContainer/HBoxContainer/VBoxContainer"]
-margin_top = 90.0
-margin_right = 457.0
-margin_bottom = 94.0
+margin_top = 80.0
+margin_right = 593.0
+margin_bottom = 84.0
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/HBoxContainer/VBoxContainer"]
-margin_top = 98.0
-margin_right = 457.0
-margin_bottom = 166.0
+margin_top = 88.0
+margin_right = 593.0
+margin_bottom = 201.0
 
 [node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
-margin_right = 400.0
-margin_bottom = 68.0
-rect_min_size = Vector2( 400, 50 )
+margin_right = 515.0
+margin_bottom = 113.0
+size_flags_horizontal = 3
 follow_focus = true
 scroll_vertical_enabled = false
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ScrollContainer"]
-unique_name_in_owner = true
-margin_right = 400.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 400, 50 )
+margin_right = 515.0
+margin_bottom = 113.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
-margin_left = 404.0
-margin_right = 457.0
-margin_bottom = 68.0
+margin_left = 519.0
+margin_right = 593.0
+margin_bottom = 113.0
 
 [node name="Button2" type="Button" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
-margin_right = 53.0
-margin_bottom = 20.0
-text = "new"
+margin_right = 74.0
+margin_bottom = 35.0
+custom_fonts/font = SubResource( 10 )
+text = "New"
 
 [node name="Button5" type="Button" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
-margin_top = 24.0
-margin_right = 53.0
-margin_bottom = 44.0
-text = "save"
+margin_top = 39.0
+margin_right = 74.0
+margin_bottom = 74.0
+custom_fonts/font = SubResource( 10 )
+text = "Save"
 
 [node name="Button4" type="Button" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
-margin_top = 48.0
-margin_right = 53.0
-margin_bottom = 68.0
-text = "delete"
+margin_top = 78.0
+margin_right = 74.0
+margin_bottom = 113.0
+custom_fonts/font = SubResource( 10 )
+text = "Delete"
 
 [node name="CheckBox" type="CheckBox" parent="."]
 anchor_left = 0.5
@@ -229,6 +297,7 @@ margin_bottom = 20.0
 text = "Exit"
 
 [node name="Save" parent="." instance=ExtResource( 4 )]
+visible = false
 
 [connection signal="show_override" from="." to="Save" method="_on_HUD_show_override"]
 [connection signal="toggled" from="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/Button" to="." method="_on_Button_toggled"]
