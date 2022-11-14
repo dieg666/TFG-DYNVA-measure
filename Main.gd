@@ -8,21 +8,32 @@ var run_mode
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	var node_data
-	var color_data
+	var color_data_background
+	var color_data_optotype
 	var save_game = File.new()
 	if  save_game.file_exists("user://runs.save"):
 		save_game.open("user://runs.save", File.READ)
 		node_data = parse_json(save_game.get_line())
 		save_game.close()
+	
 	save_game = File.new()
-	if  save_game.file_exists("user://color.save"):
-		save_game.open("user://color.save", File.READ)
-		color_data = save_game.get_line()
-		color_data = Color(color_data)
+	if  save_game.file_exists("user://colorBackground.save"):
+		save_game.open("user://colorBackground.save", File.READ)
+		color_data_background = save_game.get_line()
+		color_data_background = Color(color_data_background)
 		save_game.close()
 	else: 
-		color_data = Color.white
-	$HUD.initialize(node_data as Dictionary, color_data as Color)
+		color_data_background = Color.white
+		
+	save_game = File.new()
+	if  save_game.file_exists("user://colorOptotype.save"):
+		save_game.open("user://colorOptotype.save", File.READ)
+		color_data_optotype = save_game.get_line()
+		color_data_optotype = Color(color_data_optotype)
+		save_game.close()
+	else: 
+		color_data_optotype = Color.black
+	$HUD.initialize(node_data as Dictionary, color_data_background as Color, color_data_optotype as Color)
 	$DebugMode.hide()
 	screen_size = $Octo.get_viewport_rect().size
 	positions = [
@@ -67,13 +78,21 @@ func _process(_delta):
 func exit():
 	var dict = $HUD.getData()
 	var save_game = File.new()
+	
 	save_game.open("user://runs.save", File.WRITE)
 	save_game.store_line(to_json(dict))
 	save_game.close()
+	
 	save_game = File.new()
-	save_game.open("user://color.save", File.WRITE)
+	save_game.open("user://colorBackground.save", File.WRITE)
 	save_game.store_line($HUD.get_background_color())
 	save_game.close()
+	
+	save_game = File.new()
+	save_game.open("user://colorOptotype.save", File.WRITE)
+	save_game.store_line($HUD.get_optotype_color())
+	save_game.close()
+	
 	get_tree().quit()
 func _on_Octo_debug_update():
 	if $HUD/CheckBox.pressed:

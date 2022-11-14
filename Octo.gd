@@ -1,4 +1,4 @@
-extends RigidBody2D
+extends Sprite
 signal debug_update
 export var speed = 1000 # How fast the player will move (pixels/sec).
 export var size = 1
@@ -14,7 +14,7 @@ var iterations = 0
 var rng = RandomNumberGenerator.new()
 var userRotationSuccess = 2 # 0 is false, 1 is true, 2 is not defined
 # Called when the node enters the scene tree for the first time.
-func _ready(): 
+func _ready():
 	randomize()
 	hide()
 	pass # Replace with function body.
@@ -62,6 +62,7 @@ func _input(event):
 			rotation = deg2rad(get_random_rotation())
 		emit_signal("debug_update")
 func _process(delta):
+	modulate = Color8(244, 253, 21)
 	var velocity = initialVelocity.normalized()
 	velocity = velocity.normalized() * speed
 	position += velocity * delta
@@ -71,6 +72,7 @@ func get_random_rotation():
 	actualRotation = rotations[rng.randi() % rotations.size()]
 	return actualRotation
 func start(pos,vel,swing,mode,rotationIteration):
+	$OctoSprite.material.set_shader_param("color", Vector3(1,0,0))
 	position = pos
 	initialSwing = swing
 	initialVelocity = vel

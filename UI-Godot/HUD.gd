@@ -9,11 +9,12 @@ var dict = {}
 var mode = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	print ($PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2/ColorBackgroundButton.color)
 	$Save.hide()
 	pass # Replace with function body.
 func get_background_color():
 	return $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2/ColorBackgroundButton.color.to_html()
+func get_optotype_color():
+	return $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer3/ColorOptotype.color.to_html()
 func _on_Start_pressed():
 	print(_get_mode())
 	emit_signal("start_game", _get_mode(), get_values($PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ScrollContainer/HBoxContainer.get_children()))
@@ -64,9 +65,10 @@ func change_to_mode(encoded_mode):
 	$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox.pressed = '0' == encoded_mode[1]
 	$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox2.pressed = '0' != encoded_mode[1]
 	$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/DirectionOptionButton.select(int(encoded_mode[2]))
-func initialize(d, color):
+func initialize(d, background_color, optotype_color):
 	delete_children($PanelContainer/HBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer)
-	$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2/ColorBackgroundButton.color = color
+	$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2/ColorBackgroundButton.color = background_color
+	$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer3/ColorOptotype.color = optotype_color
 	dict = d
 	for item in d:
 		var buttons_pck = preload("res://UI-Godot/ButtonSave.tscn")
@@ -156,7 +158,8 @@ func save(encoded_mode, value):
 	# to do change access mode to dictionary
 	dict.erase(_get_key_from_dict(value))
 	dict[encoded_mode+value] = get_values($PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ScrollContainer/HBoxContainer.get_children())
-	initialize(dict, $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2/ColorBackgroundButton.color)
+	initialize(dict, $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2/ColorBackgroundButton.color, 
+				$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer3/ColorOptotype.color)
 
 func _on_Save_override(choice):
 	if choice:	
