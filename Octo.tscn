@@ -5,12 +5,43 @@
 
 [sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
-uniform vec3 color = vec3(0,0,0);
+uniform vec3 color;
+uniform float alpha;
 bool approx_eq(vec4 c1, vec4 c2) { return all( lessThan( abs( c1 - c2 ), vec4( 0.001, 0.001, 0.001, 0.001) ) ); }
+const float SRGB_GAMMA = 1.0 / 2.2;
+const float SRGB_INVERSE_GAMMA = 2.2;
+const float SRGB_ALPHA = 0.055;
+
+float srgb_to_linear(float channel) {
+    if (channel <= 0.04045)
+        return channel / 12.92;
+    else
+        return pow((channel + SRGB_ALPHA) / (1.0 + SRGB_ALPHA), 2.4);
+}
+vec3 srgb_to_rgb(vec3 srgb) {
+    return vec3(
+        srgb_to_linear(srgb.r),
+        srgb_to_linear(srgb.g),
+        srgb_to_linear(srgb.b)
+    );
+}
+float linear_to_srgb(float channel) {
+    if(channel <= 0.0031308)
+        return 12.92 * channel;
+    else
+        return (1.0 + SRGB_ALPHA) * pow(channel, 1.0/2.4) - SRGB_ALPHA;
+}
+vec3 rgb_to_srgb(vec3 rgb) {
+    return vec3(
+        linear_to_srgb(rgb.r),
+        linear_to_srgb(rgb.g),
+        linear_to_srgb(rgb.b)
+    );
+}
 void fragment(){
 	vec4 curr_color = texture(TEXTURE,UV); // Get current color of pixel
    if (approx_eq(curr_color,vec4(0,0,0,1))){
-        COLOR = vec4(color,0.7)
+        COLOR = vec4(color,alpha)
     }else{
         COLOR = curr_color;
     }
@@ -20,6 +51,7 @@ void fragment(){
 [sub_resource type="ShaderMaterial" id=2]
 shader = SubResource( 1 )
 shader_param/color = Vector3( 0, 0, 0 )
+shader_param/alpha = null
 
 [node name="Octo" type="Sprite"]
 position = Vector2( 338, 204 )

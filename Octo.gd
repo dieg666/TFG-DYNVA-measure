@@ -62,7 +62,6 @@ func _input(event):
 			rotation = deg2rad(get_random_rotation())
 		emit_signal("debug_update")
 func _process(delta):
-	modulate = Color8(244, 253, 21)
 	var velocity = initialVelocity.normalized()
 	velocity = velocity.normalized() * speed
 	position += velocity * delta
@@ -71,8 +70,9 @@ func get_random_rotation():
 	var rotations = [0,-45,-90,-135,-180,-225,-270,-315]
 	actualRotation = rotations[rng.randi() % rotations.size()]
 	return actualRotation
-func start(pos,vel,swing,mode,rotationIteration):
-	$OctoSprite.material.set_shader_param("color", Vector3(1,0,0))
+func start(pos,vel,swing,mode,rotationIteration, optotype_color : Color):
+	$OctoSprite.material.set_shader_param("color", Vector3(optotype_color.r, optotype_color.g, optotype_color.b))
+	$OctoSprite.material.set_shader_param("alpha", optotype_color.a)
 	position = pos
 	initialSwing = swing
 	initialVelocity = vel

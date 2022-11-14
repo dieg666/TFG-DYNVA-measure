@@ -1,7 +1,7 @@
 extends CanvasLayer
 signal start_game
 signal show_override
-signal exit
+signal exit 
 var state = 0
 var swing = false
 var node_selected = ''

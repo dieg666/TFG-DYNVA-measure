@@ -59,12 +59,13 @@ func _ready():
 	
 func start_game(mode, _list):
 	$ColorRect.color = Color($HUD.get_background_color())
+	var optotype_color = Color($HUD.get_optotype_color())
 	var index = int(mode[2])
 	var swing = int(mode[0])
 	run_mode = int(mode[1])
 	var rotationIteration = 5
 	$HUD.hide()
-	$Octo.start(positions[index], velocities[index],swing,run_mode,rotationIteration)
+	$Octo.start(positions[index], velocities[index],swing,run_mode,rotationIteration, optotype_color)
 	_on_Octo_debug_update()
 	if $HUD/CheckBox.pressed:
 		$DebugMode.show()
