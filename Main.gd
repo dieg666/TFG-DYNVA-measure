@@ -4,9 +4,24 @@ var screen_size
 var velocities
 var positions
 var run_mode
+var position_delay
+var resolution 
+var size_dot_in_mm
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	
+	resolution = OS.get_screen_size()
+	#resolution = Vector2(1280,720)
+	$Octo.projectResolution = resolution
+	print("resolution:")
+	print(resolution)
+	$ColorRect.set_size(Vector2(3000,3000))
+
+	get_tree().set_screen_stretch(
+		SceneTree.STRETCH_MODE_2D, SceneTree.STRETCH_ASPECT_KEEP, resolution
+	)
+	OS.set_window_size(resolution)
 	var node_data
 	var color_data_background
 	var color_data_optotype
@@ -36,6 +51,8 @@ func _ready():
 	$HUD.initialize(node_data as Dictionary, color_data_background as Color, color_data_optotype as Color)
 	$DebugMode.hide()
 	screen_size = $Octo.get_viewport_rect().size
+	print("screen size values:")
+	print(screen_size)
 	positions = [
 		Vector2(0,screen_size.y/2),
 		Vector2(0,0),
@@ -56,22 +73,45 @@ func _ready():
 		Vector2(0,-screen_size.y),
 		Vector2(screen_size.x,-screen_size.y)
 		]
+	position_delay = [
+		Vector2(-1,0),
+		Vector2(0,0),#Vector2(-1,-1),
+		Vector2(0,-1),
+		Vector2(0,0),#Vector2(1,-1),
+		Vector2(1,0),
+		Vector2(0,0),#Vector2(1,1),
+		Vector2(0,1),
+		Vector2(0,0),#Vector2(-1,1)
+	]
+func correct_scale(scale):
+	var screenSizeInches = $HUD/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer4/SpinBox.value
+	
 	
 func start_game(mode, _list):
 	$ColorRect.color = Color($HUD.get_background_color())
 	var optotype_color = Color($HUD.get_optotype_color())
+	var screenSizeInches = $HUD/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer4/SpinBox.value
 	var index = int(mode[2])
 	var swing = int(mode[0])
 	run_mode = int(mode[1])
 	var rotationIteration = 5
 	$HUD.hide()
-	$Octo.start(positions[index], velocities[index],swing,run_mode,rotationIteration, optotype_color)
-	_on_Octo_debug_update()
+	var s = resolution * 1.0
+	var d = sqrt(s.x*s.x+s.y*s.y)
+	var x = (int(screenSizeInches)*1.0)/(d)
+	size_dot_in_mm = x * 0.0254*1000
+	$DebugMode.sizeDot = size_dot_in_mm
+	var gap = 1 #cm
+	var scale = 0.01*(10/size_dot_in_mm)*gap*5
+	$Octo.start(positions[index], velocities[index],swing,run_mode,rotationIteration, optotype_color, scale,position_delay[index])
+	#_on_Octo_debug_update()
 	if $HUD/CheckBox.pressed:
 		$DebugMode.show()
+		
 	
 func _process(_delta):
 	if Input.is_action_pressed("escape"):
+		$Octo.hide()
 		$Octo.stop()
 		$DebugMode.hide()
 		$HUD.show()
@@ -97,13 +137,16 @@ func exit():
 	get_tree().quit()
 func _on_Octo_debug_update():
 	if $HUD/CheckBox.pressed:
-		$DebugMode.velocity = $Octo.speed
-		$DebugMode.size = $Octo.size
+		$DebugMode.velocity = $Octo.internalVelocity #todo6
+		$DebugMode.size = 100*$Octo.scale
 		$DebugMode.rotationDegree = $Octo.actualRotation
 		$DebugMode.userRotationSuccess = $Octo.userRotationSuccess
 		$DebugMode.score = $Octo.score
 		$DebugMode.iterations = $Octo.iterations
+		$DebugMode.travelledPixels = $Octo.travelledPixels
+
 		emit_signal("show_debug_stats")
+		
 	else:
 		$DebugMode.hide()
 	pass # Replace with function body.
