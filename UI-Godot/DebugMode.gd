@@ -25,7 +25,7 @@ func round_to_dec(num, digit):
 	
 func show_debug_stats():
 	$HBoxContainer/Label.text = "Velocity: " + str(velocity) + "px/s" + ", " + str(velocity*sizeDot/1000) + "m/s"
-	$HBoxContainer/Label2.text = "Size Opto" + str(size)+ " px" + ", " + str(size.x*sizeDot) + "mm"
+	$HBoxContainer/Label2.text = "Size Opto: " + str(size.x)+ " px" + ", " + str(size.x*sizeDot) + "mm"
 	$HBoxContainer/Label3.text = "Rotation: " + str(rotationDegree)
 	var userRotationSuccessString = ""
 	if userRotationSuccess == 1:

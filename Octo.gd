@@ -20,6 +20,8 @@ var userRotationSuccess = 2 # 0 is false, 1 is true, 2 is not defined
 var travelledPixels = 0
 var fps = 1
 var internalVelocity = 0 # display purposes
+var increment
+var speedOpto
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	fps = ProjectSettings.get_setting("physics/common/physics_fps")
@@ -73,14 +75,13 @@ func _input(event):
 
 func _physics_process(delta):
 	emit_signal("debug_update")
-	var velocity = initialVelocity.normalized()
-	var pixelPorSegundo = 1280+scale.x*100
-	velocity = velocity * pixelPorSegundo * delta
-	travelledPixels += pixelPorSegundo * delta
-	position += velocity 
+	var velocity = initialVelocity
+	#var pixelPorSegundo = projectResolution.x+scale.x*100
+	velocity = velocity*delta*60 #* pixelPorSegundo * delta
+	travelledPixels += velocity.length()*delta #delta
+	position += velocity*delta
 	if Time.get_unix_time_from_system() - unix_time_internal > 2:
-		var k = 1.0/fps
-		internalVelocity = (k*pixelPorSegundo*1.0)/k
+		internalVelocity = (velocity)
 		emit_signal("timeout")
 		reset_internal_time()
 	
@@ -90,8 +91,10 @@ func get_random_rotation():
 	actualRotation = rotations[rng.randi() % rotations.size()]
 	return actualRotation
 	
-func start(pos,vel,swing,mode,rotationIteration, optotype_color : Color, scaleInitial,posDelay):
+func start(pos,vel,swing,mode,rotationIteration, optotype_color : Color, scaleInitial,posDelay,incrementType, speed):
 	$OctoSprite.material.set_shader_param("color", Vector3(optotype_color.r, optotype_color.g, optotype_color.b))
+	increment = incrementType
+	speedOpto = speed
 	$OctoSprite.material.set_shader_param("alpha", optotype_color.a)
 	scale = Vector2(1,1)
 	scale = scaleInitial*scale
@@ -99,7 +102,7 @@ func start(pos,vel,swing,mode,rotationIteration, optotype_color : Color, scaleIn
 	pos.y = pos.y + posDelay.y*100*scale.y
 	position = pos
 	initialSwing = swing
-	initialVelocity = vel
+	initialVelocity = vel.normalized()*12*60
 	initialPosition = pos
 	initialRotationIteration = rotationIteration
 	actualRotationIteration = rotationIteration
@@ -136,8 +139,7 @@ func _on_VisibilityNotifier2D_screen_exited():
 		userRotationSuccess = 2
 		actualRotationIteration = initialRotationIteration
 	var k = 1.0/fps
-	var pixelPorSegundo = 1280+scale.x*100
-	internalVelocity = (k*pixelPorSegundo*1.0)/k
+	
 	emit_signal("debug_update")
 	emit_signal("start_timer")
 	
@@ -150,6 +152,23 @@ func reset_internal_time():
 
 
 func _on_Octo_timeout():
-	
-	scale *=1.05
+	if increment == 0:
+		 #non percentage
+		if initialMode:
+			if initialVelocity.x !=0:
+				initialVelocity.x += speedOpto
+			if initialVelocity.y !=0:
+				initialVelocity.y += speedOpto
+		else: 
+			scale.x += speedOpto/100.0
+			scale.y += speedOpto/100.0
+	else:
+		 # percentage
+		if initialMode:
+			initialVelocity *= 1+speedOpto/100.0*1.0
+		else: 
+			scale.x *= 1+speedOpto/100.0
+			scale.y *= 1+speedOpto/100.0
+
+	#scale *=1.05
 	pass # Replace with function body.

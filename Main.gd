@@ -7,7 +7,7 @@ var run_mode
 var position_delay
 var resolution 
 var size_dot_in_mm
-
+var incrementType
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
@@ -22,9 +22,9 @@ func _ready():
 		SceneTree.STRETCH_MODE_2D, SceneTree.STRETCH_ASPECT_KEEP, resolution
 	)
 	OS.set_window_size(resolution)
-	var node_data
-	var color_data_background
-	var color_data_optotype
+	var node_data = {}
+	var color_data_background = Color.white
+	var color_data_optotype = Color.black
 	var save_game = File.new()
 	if  save_game.file_exists("user://runs.save"):
 		save_game.open("user://runs.save", File.READ)
@@ -94,6 +94,10 @@ func start_game(mode, _list):
 	var index = int(mode[2])
 	var swing = int(mode[0])
 	run_mode = int(mode[1])
+	incrementType = int(mode[3])
+	var speed = int(mode.substr(4,3))
+	print("speed:")
+	print(speed)
 	var rotationIteration = 5
 	$HUD.hide()
 	var s = resolution * 1.0
@@ -103,7 +107,7 @@ func start_game(mode, _list):
 	$DebugMode.sizeDot = size_dot_in_mm
 	var gap = 1 #cm
 	var scale = 0.01*(10/size_dot_in_mm)*gap*5
-	$Octo.start(positions[index], velocities[index],swing,run_mode,rotationIteration, optotype_color, scale,position_delay[index])
+	$Octo.start(positions[index], velocities[index],swing,run_mode,rotationIteration, optotype_color, scale,position_delay[index], incrementType, speed)
 	#_on_Octo_debug_update()
 	if $HUD/CheckBox.pressed:
 		$DebugMode.show()
@@ -137,7 +141,7 @@ func exit():
 	get_tree().quit()
 func _on_Octo_debug_update():
 	if $HUD/CheckBox.pressed:
-		$DebugMode.velocity = $Octo.internalVelocity #todo6
+		$DebugMode.velocity = $Octo.internalVelocity
 		$DebugMode.size = 100*$Octo.scale
 		$DebugMode.rotationDegree = $Octo.actualRotation
 		$DebugMode.userRotationSuccess = $Octo.userRotationSuccess

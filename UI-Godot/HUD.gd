@@ -9,7 +9,16 @@ var dict = {}
 var mode = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
-
+	if !$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox2.pressed:
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label.text = "Increase size by:"
+	else:
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label.text = "Increase speed by:"
+	if $PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/CheckButton.pressed:
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "%"
+	elif $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox.pressed:
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "px"
+	elif $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox2.pressed:
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "px/s"
 	$Save.hide()
 	pass # Replace with function body.
 func get_background_color():
@@ -24,6 +33,16 @@ func _on_CheckBox2_pressed():
 	if !$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox2.pressed:
 		$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox2.pressed = true
 	$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox.pressed = false
+	if $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox.pressed:
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label.text = "Increase size by:"
+	else: 
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label.text = "Increase speed by:"
+	if $PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/CheckButton.pressed:
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "%"
+	elif $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox.pressed:
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "px"
+	elif $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox2.pressed:
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "px/s"
 
 	pass # Replace with function body.
 static func delete_children(node):
@@ -31,9 +50,20 @@ static func delete_children(node):
 		node.remove_child(n)
 		n.queue_free()
 func _on_CheckBox_pressed():
+	#speed series
 	if !$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox.pressed:
 		$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox.pressed = true
 	$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox2.pressed = false
+	if $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox.pressed:
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label.text = "Increase size by:"
+	else: 
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label.text = "Increase speed by:"
+	if $PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/CheckButton.pressed:
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "%"
+	elif $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox.pressed:
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "px"
+	elif $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox2.pressed:
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "px/s"
 func renumerate_values(container):
 	var i = 1
 	for button in container:
@@ -65,6 +95,21 @@ func change_to_mode(encoded_mode):
 	$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox.pressed = '0' == encoded_mode[1]
 	$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox2.pressed = '0' != encoded_mode[1]
 	$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/DirectionOptionButton.select(int(encoded_mode[2]))
+	if '0' == encoded_mode[1]:
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label.text = "Increase size by:"
+	else:
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label.text = "Increase speed by:"
+	$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/CheckButton.pressed = '0' != encoded_mode[3]
+	if '0' != encoded_mode[3]:
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "%"
+	elif '0' == encoded_mode[1]:
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "px"
+	else:
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "px/s"
+	print("encoded_mode")
+	print("encoded mode:")
+	print(encoded_mode)
+	$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.value = int(encoded_mode.substr(4,3))
 func initialize(d, background_color, optotype_color):
 	delete_children($PanelContainer/HBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer)
 	$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2/ColorBackgroundButton.color = background_color
@@ -74,8 +119,8 @@ func initialize(d, background_color, optotype_color):
 		var buttons_pck = preload("res://UI-Godot/ButtonSave.tscn")
 		var buttons = buttons_pck.instance()
 		buttons.connect("load_is_done", self, "_load_is_done" )
-		buttons.text = item.substr(3,-1)
-		buttons.mode = item.substr(0,3)
+		buttons.text = item.substr(7,-1)
+		buttons.mode = item.substr(0,7)
 		if buttons.text == node_selected:
 			buttons.pressed()
 		$PanelContainer/HBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer.add_child(buttons)
@@ -88,7 +133,15 @@ func _on_Button2_pressed():
 	var buttons = buttons_pck.instance()
 	buttons.connect("delete", self, "_on_VBoxContainer_delete" )
 	buttons.connect("add", self, "_on_VBoxContainer_add" )
+	$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/Button.pressed = false
+	$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox.pressed = true
+	$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox2.pressed = false
+	$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/DirectionOptionButton.select(0)
+	$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label.text = "Increase size by:"
+	$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/CheckButton.pressed = false
+	$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.value = 0
 	delete_children($PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ScrollContainer/HBoxContainer)
+	$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/Button.pressed = false
 	$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ScrollContainer/HBoxContainer.add_child(buttons)	
 func _on_Button_toggled(button_pressed):
 	swing = button_pressed # Replace with function body.	
@@ -115,8 +168,9 @@ func get_values(list):
 	return l
 func _get_key_from_dict(value):
 	for i in dict.keys():
-		if value == i.substr(3,-1):
+		if value == i.substr(7,-1):
 			return i
+	return ""
 func _load_is_done(id):
 	for item in $PanelContainer/HBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer.get_children():
 		if item.get_instance_id() != id:
@@ -160,7 +214,6 @@ func save(encoded_mode, value):
 	dict[encoded_mode+value] = get_values($PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ScrollContainer/HBoxContainer.get_children())
 	initialize(dict, $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2/ColorBackgroundButton.color, 
 				$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer3/ColorOptotype.color)
-
 func _on_Save_override(choice):
 	if choice:	
 		var file_name = $Save/VBoxContainer/LineEdit 
@@ -168,11 +221,20 @@ func _on_Save_override(choice):
 		save(_get_mode(),value)
 	else:
 		_save_test_pressed()
-
 func _get_mode():
 	var encoded_mode = ''
 	encoded_mode += str(int($PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/Button.pressed))
 	encoded_mode += str(int(!$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox.pressed))
 	encoded_mode += str(state)
+	encoded_mode += str(int($PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/CheckButton.pressed))
+	encoded_mode += "%03d"%[$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.value]
 	return encoded_mode
+func _on_CheckButton_pressed():
+	if $PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/CheckButton.pressed:
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "%"
+	elif $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox.pressed:
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "px"
+	elif $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox2.pressed:
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "px/s"
 
+	pass # Replace with function body.
