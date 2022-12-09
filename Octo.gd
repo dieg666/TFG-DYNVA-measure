@@ -74,13 +74,14 @@ func _input(event):
 		emit_signal("debug_update")
 
 func _physics_process(delta):
-	emit_signal("debug_update")
+	
 	var velocity = initialVelocity
 	#var pixelPorSegundo = projectResolution.x+scale.x*100
 	velocity = velocity*delta*60 #* pixelPorSegundo * delta
 	travelledPixels += velocity.length()*delta #delta
 	position += velocity*delta
 	if Time.get_unix_time_from_system() - unix_time_internal > 2:
+		emit_signal("debug_update")
 		internalVelocity = (velocity)
 		emit_signal("timeout")
 		reset_internal_time()
