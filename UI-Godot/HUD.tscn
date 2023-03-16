@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://UI-Godot/HUD.gd" type="Script" id=1]
 [ext_resource path="res://UI-Godot/buttonLeft.tres" type="DynamicFont" id=2]
@@ -46,7 +46,7 @@ font_data = ExtResource( 5 )
 size = 35
 font_data = ExtResource( 6 )
 
-[sub_resource type="Image" id=21]
+[sub_resource type="Image" id=27]
 data = {
 "data": PoolByteArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 223, 103, 225, 102, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 224, 57, 224, 248, 224, 250, 226, 61, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 223, 24, 224, 228, 224, 255, 224, 255, 224, 231, 227, 27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 204, 5, 223, 194, 224, 255, 224, 255, 224, 255, 224, 255, 224, 199, 219, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 223, 153, 224, 255, 224, 255, 224, 255, 224, 255, 224, 255, 224, 255, 225, 160, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 223, 153, 224, 255, 224, 255, 224, 255, 224, 255, 224, 255, 224, 255, 225, 152, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 204, 5, 223, 194, 224, 255, 224, 255, 224, 255, 224, 255, 224, 198, 219, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 223, 24, 224, 228, 224, 255, 224, 255, 224, 231, 227, 27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 223, 56, 224, 248, 224, 250, 226, 61, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 225, 102, 225, 102, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ),
 "format": "LumAlpha8",
@@ -58,7 +58,7 @@ data = {
 [sub_resource type="ImageTexture" id=18]
 flags = 12
 flags = 12
-image = SubResource( 21 )
+image = SubResource( 27 )
 size = Vector2( 16, 16 )
 
 [sub_resource type="DynamicFont" id=15]
@@ -91,10 +91,21 @@ border_blend = true
 size = 50
 font_data = ExtResource( 5 )
 
+[sub_resource type="StyleBoxFlat" id=22]
+bg_color = Color( 0.556863, 0.137255, 0.137255, 1 )
+
+[sub_resource type="StyleBoxFlat" id=24]
+bg_color = Color( 0.8, 0.145098, 0.145098, 1 )
+
+[sub_resource type="DynamicFont" id=26]
+size = 55
+font_data = ExtResource( 5 )
+
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource( 1 )
 __meta__ = {
-"_edit_horizontal_guides_": [ -678.0 ]
+"_edit_horizontal_guides_": [ -678.0 ],
+"_edit_vertical_guides_": [ -767.0 ]
 }
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -394,27 +405,13 @@ margin_left = 530.0
 margin_right = 604.0
 margin_bottom = 40.0
 
-[node name="CheckBox" type="CheckBox" parent="."]
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -34.5
-margin_top = -24.0
-margin_right = 34.5
-custom_colors/font_color_disabled = Color( 0, 0, 0, 1 )
-custom_colors/font_color_focus = Color( 0, 0, 0, 1 )
-custom_colors/font_color_hover_pressed = Color( 0, 0, 0, 1 )
-custom_colors/font_color = Color( 0, 0, 0, 1 )
-custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
-custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
-text = "Debug"
-
 [node name="Button" type="Button" parent="."]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -35.0
-margin_bottom = 20.0
+margin_left = -66.0
+margin_bottom = 49.0
+custom_styles/hover = SubResource( 22 )
+custom_styles/normal = SubResource( 24 )
 text = "Exit"
 
 [node name="Save" parent="." instance=ExtResource( 4 )]
@@ -427,6 +424,37 @@ margin_left = -709.376
 margin_top = -343.26
 margin_right = 709.376
 margin_bottom = 343.26
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -90.0
+margin_top = -38.0
+margin_bottom = 38.0
+
+[node name="CheckBox" type="CheckBox" parent="VBoxContainer"]
+margin_right = 90.0
+margin_bottom = 40.0
+custom_colors/font_color_disabled = Color( 0, 0, 0, 1 )
+custom_colors/font_color_focus = Color( 0, 0, 0, 1 )
+custom_colors/font_color_hover_pressed = Color( 0, 0, 0, 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
+custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 26 )
+text = "Debug"
+
+[node name="LinkButton" type="LinkButton" parent="VBoxContainer"]
+margin_top = 44.0
+margin_right = 90.0
+margin_bottom = 76.0
+custom_colors/font_color_focus = Color( 0, 0, 0, 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color_hover = Color( 0.337255, 0.337255, 0.337255, 1 )
+custom_fonts/font = SubResource( 26 )
+text = "Help"
 
 [connection signal="show_override" from="." to="Save" method="_on_HUD_show_override"]
 [connection signal="toggled" from="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/Button" to="." method="_on_Button_toggled"]
@@ -441,3 +469,4 @@ margin_bottom = 343.26
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
 [connection signal="override" from="Save" to="." method="_on_Save_override"]
 [connection signal="save_is_done" from="Save" to="." method="_on_Control_save_is_done"]
+[connection signal="pressed" from="VBoxContainer/LinkButton" to="." method="_on_LinkButton_pressed"]

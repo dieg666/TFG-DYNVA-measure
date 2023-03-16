@@ -161,7 +161,7 @@ func _save_test_pressed():
 				break
 			$Save/VBoxContainer/LineEdit.text = ""
 		$PanelContainer.hide()
-		$CheckBox.hide()
+		$VBoxContainer/CheckBox.hide()
 		$Save.show()
 func filename_exists(file_name):
 	for item in $PanelContainer/HBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer.get_children():
@@ -215,7 +215,7 @@ func _on_Button4_pressed():
 			return 
 func save(encoded_mode, value):
 	$PanelContainer.show()
-	$CheckBox.show()
+	$VBoxContainer/CheckBox.show()
 	$Save.hide()
 	# to do change access mode to dictionary
 	dict.erase(_get_key_from_dict(value))
@@ -245,4 +245,9 @@ func _on_CheckButton_pressed():
 	elif $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox2.pressed:
 		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "px/s"
 
+	pass # Replace with function body.
+
+
+func _on_LinkButton_pressed():
+	OS.execute("rundll32",["url.dll","FileProtocolHandler","https://github.com/dieg666/TFG-DYNVA-measure/blob/main/TFG-2.pdf"])
 	pass # Replace with function body.

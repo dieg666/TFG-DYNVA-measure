@@ -111,7 +111,7 @@ func start_game(mode, _list):
 	var scale = 0.01*(10/size_dot_in_mm)*gap*5
 	$Octo.start(positions[index], velocities[index],swing,run_mode,rotationIteration, optotype_color, scale,position_delay[index], incrementType, speed, _list,resolution,screenSizeInches)
 	#_on_Octo_debug_update()
-	if $HUD/CheckBox.pressed:
+	if $HUD/VBoxContainer/CheckBox.pressed:
 		$DebugMode.show()
 		
 	
@@ -142,7 +142,7 @@ func exit():
 	
 	get_tree().quit()
 func _on_Octo_debug_update():
-	if $HUD/CheckBox.pressed:
+	if $HUD/VBoxContainer/CheckBox.pressed:
 		$DebugMode.velocity = $Octo.internalVelocity
 		$DebugMode.size = 100*$Octo.scale
 		$DebugMode.rotationDegree = $Octo.actualRotation
