@@ -12,7 +12,7 @@ func _ready():
 	if !$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox2.pressed:
 		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label.text = "Increase size by:"
 	else:
-		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label.text = "Increase speed by:"
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label.text = "Decrease speed by:"
 	if $PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/CheckButton.pressed:
 		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "%"
 	elif $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox.pressed:
@@ -30,20 +30,21 @@ func _on_Start_pressed():
 func _on_DirectionOptionButton_item_selected(index):
 	state = index
 func _on_CheckBox2_pressed():
+	
 	if !$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox2.pressed:
 		$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox2.pressed = true
 	$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox.pressed = false
 	if $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox.pressed:
 		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label.text = "Increase size by:"
 	else: 
-		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label.text = "Increase speed by:"
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label.text = "Decrease speed by:"
 	if $PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/CheckButton.pressed:
 		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "%"
 	elif $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox.pressed:
 		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "px"
 	elif $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox2.pressed:
 		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "px/s"
-
+	renumerate_values($PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ScrollContainer/HBoxContainer.get_children())
 	pass # Replace with function body.
 static func delete_children(node):
 	for n in node.get_children():
@@ -57,17 +58,22 @@ func _on_CheckBox_pressed():
 	if $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox.pressed:
 		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label.text = "Increase size by:"
 	else: 
-		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label.text = "Increase speed by:"
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label.text = "Decrease speed by:"
 	if $PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/CheckButton.pressed:
 		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "%"
 	elif $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox.pressed:
 		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "px"
 	elif $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox2.pressed:
 		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "px/s"
+	renumerate_values($PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ScrollContainer/HBoxContainer.get_children())
 func renumerate_values(container):
 	var i = 1
 	for button in container:
 		button.set_text(i)
+		if $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox.pressed:
+			button.set_sufix(" px/s")
+		else: 
+			button.set_sufix("cm")
 		i += 1
 func _on_VBoxContainer_add():
 	for button in $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ScrollContainer/HBoxContainer.get_children():
@@ -98,7 +104,7 @@ func change_to_mode(encoded_mode):
 	if '0' == encoded_mode[1]:
 		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label.text = "Increase size by:"
 	else:
-		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label.text = "Increase speed by:"
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label.text = "Decrease speed by:"
 	$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/CheckButton.pressed = '0' != encoded_mode[3]
 	if '0' != encoded_mode[3]:
 		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "%"
@@ -143,6 +149,7 @@ func _on_Button2_pressed():
 	delete_children($PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ScrollContainer/HBoxContainer)
 	$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/Button.pressed = false
 	$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ScrollContainer/HBoxContainer.add_child(buttons)	
+	renumerate_values($PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ScrollContainer/HBoxContainer.get_children())
 func _on_Button_toggled(button_pressed):
 	swing = button_pressed # Replace with function body.	
 func _save_test_pressed():
@@ -189,6 +196,7 @@ func _load_is_done(id):
 				change_to_mode(_get_key_from_dict(item.text))
 				i += 1
 				$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ScrollContainer/HBoxContainer.add_child(buttons)
+	renumerate_values($PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ScrollContainer/HBoxContainer.get_children())
 func _on_Control_save_is_done():
 	var file_name = $Save/VBoxContainer/LineEdit 
 	var value = file_name.text

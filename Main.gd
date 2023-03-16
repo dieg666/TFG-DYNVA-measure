@@ -1,4 +1,5 @@
 extends Node
+signal show_score
 signal show_debug_stats
 var screen_size
 var velocities
@@ -8,9 +9,10 @@ var position_delay
 var resolution 
 var size_dot_in_mm
 var incrementType
+var score = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	
+	$Score.hide()
 	resolution = OS.get_screen_size()
 	#resolution = Vector2(1280,720)
 	$Octo.projectResolution = resolution
@@ -104,10 +106,10 @@ func start_game(mode, _list):
 	var d = sqrt(s.x*s.x+s.y*s.y)
 	var x = (int(screenSizeInches)*1.0)/(d)
 	size_dot_in_mm = x * 0.0254*1000
-	$DebugMode.sizeDot = size_dot_in_mm
+
 	var gap = 1 #cm
 	var scale = 0.01*(10/size_dot_in_mm)*gap*5
-	$Octo.start(positions[index], velocities[index],swing,run_mode,rotationIteration, optotype_color, scale,position_delay[index], incrementType, speed)
+	$Octo.start(positions[index], velocities[index],swing,run_mode,rotationIteration, optotype_color, scale,position_delay[index], incrementType, speed, _list,resolution,screenSizeInches)
 	#_on_Octo_debug_update()
 	if $HUD/CheckBox.pressed:
 		$DebugMode.show()
@@ -119,7 +121,7 @@ func _process(_delta):
 		$Octo.stop()
 		$DebugMode.hide()
 		$HUD.show()
-		
+		$Score.hide()		
 func exit():
 	var dict = $HUD.getData()
 	var save_game = File.new()
@@ -155,3 +157,14 @@ func _on_Octo_debug_update():
 		$DebugMode.hide()
 	pass # Replace with function body.
 
+
+
+func _on_Octo_show_score():
+	$Score.show()
+	$Octo.hide()
+	$Octo.stop()
+	$DebugMode.hide()
+	$Score.score = $Octo.score
+	$Score.iterations = $Octo.iterations
+	emit_signal("show_score")
+	

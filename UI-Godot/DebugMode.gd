@@ -35,6 +35,8 @@ func show_debug_stats():
 	elif userRotationSuccess == 2:
 		userRotationSuccessString = "non defined"
 	$HBoxContainer/Label4.text = "Sucess: " + userRotationSuccessString
+	if iterations == 0:
+		return
 	$HBoxContainer/Label5.text = "Score: " + str(score) + "/" + str(iterations) + "("+str(100*round_to_dec(float(score)/float(iterations),4))+"%)"
 	
 	$HBoxContainer/Label6.text = "Time: " + str(Time.get_unix_time_from_system() - unix_time)
