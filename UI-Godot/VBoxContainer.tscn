@@ -62,9 +62,9 @@ script = SubResource( 1 )
 margin_top = 24.0
 margin_right = 100.0
 margin_bottom = 48.0
-max_value = 5000.0
-step = 0.05
-value = 5000.0
+max_value = 9999.0
+step = 0.005
+value = 30.0
 suffix = "px / s"
 script = SubResource( 2 )
 

@@ -26,7 +26,11 @@ func get_background_color():
 func get_optotype_color():
 	return $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer3/ColorOptotype.color.to_html()
 func _on_Start_pressed():
-	emit_signal("start_game", _get_mode(), get_values($PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ScrollContainer/HBoxContainer.get_children()))
+	var values = get_values($PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ScrollContainer/HBoxContainer.get_children())
+	if values == []:
+		# TODO add text
+		return 0
+	emit_signal("start_game", _get_mode(), values)
 func _on_DirectionOptionButton_item_selected(index):
 	state = index
 func _on_CheckBox2_pressed():

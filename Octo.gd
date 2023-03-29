@@ -27,6 +27,13 @@ var iterationTest = 0
 var direction = Vector2.ZERO
 var listTests = []
 var size_dot_in_mm = 0 
+var maxErrors
+var results = {}
+var currentTries = 0
+var actualTry = []
+var testIteration = 0
+var numberOfIterations = 0
+var distanceUser = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	fps = ProjectSettings.get_setting("physics/common/physics_fps")
@@ -34,6 +41,8 @@ func _ready():
 	position = Vector2.ZERO
 	hide()
 	pass # Replace with function body.
+func mmToDegre(mm,viewing):
+	return tan(1)
 func next_move():
 	reset_internal_time()
 	stop();
@@ -42,50 +51,50 @@ func next_move():
 	show()
 	reset_internal_time()
 func _input(event):
-	if event is InputEventKey:
-		if Input.is_action_just_pressed("N"):
+	if event is InputEventKey and event.pressed and self.is_visible():
+		if OS.get_scancode_string(event.physical_scancode) == "Kp 8":
 			iterations += 1
 			userRotationSuccess = int(actualRotation == -90)
 			if userRotationSuccess:
 				score += 1
 			rotation = deg2rad(get_random_rotation())
-		elif Input.is_action_just_pressed("NO"):
+		elif OS.get_scancode_string(event.physical_scancode) == "Kp 7":
 			iterations += 1
 			userRotationSuccess = int(actualRotation == -135)
 			if userRotationSuccess:
 				score += 1
 			rotation = deg2rad(get_random_rotation())
-		elif Input.is_action_just_pressed("O"):
+		elif OS.get_scancode_string(event.physical_scancode) == "Kp 4":
 			iterations += 1
 			userRotationSuccess = int(actualRotation == -180)
 			if userRotationSuccess:
 				score += 1
 			rotation = deg2rad(get_random_rotation())
-		elif Input.is_action_just_pressed("SO"):
+		elif OS.get_scancode_string(event.physical_scancode) == "Kp 1":
 			iterations += 1
 			userRotationSuccess = int(actualRotation == -225)
 			if userRotationSuccess:
 				score += 1
 			rotation = deg2rad(get_random_rotation())
-		elif Input.is_action_just_pressed("S"):
+		elif OS.get_scancode_string(event.physical_scancode) == "Kp 2":
 			iterations += 1
 			userRotationSuccess = int(actualRotation == -270)
 			if userRotationSuccess:
 				score += 1
 			rotation = deg2rad(get_random_rotation())
-		elif Input.is_action_just_pressed("SE"):
+		elif OS.get_scancode_string(event.physical_scancode) == "Kp 3":
 			iterations += 1
 			userRotationSuccess = int(actualRotation == -315)
 			if userRotationSuccess:
 				score += 1
 			rotation = deg2rad(get_random_rotation())
-		elif Input.is_action_just_pressed("E"):
+		elif OS.get_scancode_string(event.physical_scancode) == "Kp 6":
 			iterations += 1
 			userRotationSuccess = int(actualRotation == -0)
 			if userRotationSuccess:
 				score += 1
 			rotation = deg2rad(get_random_rotation())
-		elif Input.is_action_just_pressed("NE"):
+		elif OS.get_scancode_string(event.physical_scancode) == "Kp 9":
 			iterations += 1
 			userRotationSuccess = int(actualRotation == -45)
 			if userRotationSuccess:
@@ -93,21 +102,89 @@ func _input(event):
 			rotation = deg2rad(get_random_rotation())
 		
 		if userRotationSuccess == 1:
-			iterationTest += 1
-			userRotationSuccess = 2
-			if iterationTest >= listTests.size():
-				emit_signal("show_score")
-				stop()
-				return 0
+			testIteration += 1
+			var currentResult = {
+				"sizeOpto": PixelToMm(scale.x)*100,
+				"speed": PixelToMm(sqrt(initialVelocity.x*initialVelocity.x+initialVelocity.y*initialVelocity.y))
+			}
+			actualTry.append(currentResult)
+			if testIteration >= numberOfIterations:
+				iterationTest += 1
+				testIteration = 0
+				var result = {
+					"score" : iterations,
+					"errors": currentTries,
+					"values": actualTry,
+					"valid" : "true"
+				}
+				iterations = 0
+				results[iterationTest] = result
+				actualTry = []
+				userRotationSuccess = 2
+				print("size test" + str(iterationTest))
+				print(PixelToMm(scale.x))
+				print(PixelToMm(initialVelocity.x))
+				if iterationTest >= listTests.size():
+					print(results)
+					emit_signal("show_score")
+					stop()
+					return 0
+				else:
+					next_move()
+					currentTries = 0
+					if initialMode == 0:
+						scale = MmToPixel(5)/100
+						initialVelocity = direction*listTests[iterationTest]
+					elif initialMode == 1:
+						scale = MmToPixel(listTests[iterationTest])/100
+						initialVelocity = direction*5000	
+						position = initialPosition
 			else:
 				next_move()
-				
 				if initialMode == 0:
+					scale = MmToPixel(5)/100
 					initialVelocity = direction*listTests[iterationTest]
-					scale = Vector2(1,1)*0.01*(10/size_dot_in_mm)*0.1*5
 				elif initialMode == 1:
-					initialVelocity = direction*5000
-					scale = Vector2(1,1)*0.01*(10/size_dot_in_mm)*listTests[iterationTest]
+					scale = MmToPixel(listTests[iterationTest])/100
+					initialVelocity = direction*5000	
+				position = initialPosition
+		elif userRotationSuccess == 0:
+			currentTries += 1
+			
+			if currentTries >= maxErrors:
+				iterationTest += 1
+				var result = {
+					"score" : iterations,
+					"errors": currentTries,
+					"values": [],
+					"valid" : "false"
+				}
+				iterations = 0
+				actualTry = []
+				results[iterationTest] = result
+				if iterationTest >= listTests.size():
+					print(results)
+					emit_signal("show_score")
+					stop()
+					return 0
+				else:
+					currentTries = 0
+					next_move()
+					if initialMode == 0:
+						scale = MmToPixel(5)/100
+						initialVelocity = direction*listTests[iterationTest]
+					elif initialMode == 1:
+						scale = MmToPixel(listTests[iterationTest])/100
+						initialVelocity = direction*5000	
+					position = initialPosition
+			else:
+				next_move()
+				if initialMode == 0:
+					scale = MmToPixel(5)/100
+					initialVelocity = direction*listTests[iterationTest]
+				elif initialMode == 1:
+					scale = MmToPixel(listTests[iterationTest])/100
+					initialVelocity = direction*5000	
 				position = initialPosition
 			
 		emit_signal("debug_update")
@@ -130,9 +207,13 @@ func get_random_rotation():
 	var rotations = [0,-45,-90,-135,-180,-225,-270,-315]
 	actualRotation = rotations[rng.randi() % rotations.size()]
 	return actualRotation
+func MmToPixel(mm):
+	return Vector2(1,1)*(float(mm)/size_dot_in_mm)
+func PixelToMm(pixel):
+	return float(pixel*size_dot_in_mm)
 	
-func start(pos,vel,swing,mode,rotationIteration, optotype_color : Color, scaleInitial,posDelay,incrementType, speed, list,resolution,screenSizeInches):
-
+func start(pos,vel,swing,mode,rotationIteration, optotype_color : Color, scaleInitial,posDelay,incrementType, speed, list,resolution,screenSizeInches, maxE, nIterations, dUser):
+	maxErrors = maxE
 	listTests = list
 	iterationTest = 0
 	$OctoSprite.material.set_shader_param("color", Vector3(optotype_color.r, optotype_color.g, optotype_color.b))
@@ -150,19 +231,28 @@ func start(pos,vel,swing,mode,rotationIteration, optotype_color : Color, scaleIn
 	var d = sqrt(s.x*s.x+s.y*s.y)
 	var x = (int(screenSizeInches)*1.0)/(d)
 	size_dot_in_mm = x * 0.0254*1000
-
-
+	numberOfIterations = nIterations
 
 	# speed6
 	if mode == 0:
 		direction = vel.normalized()
-		scale = Vector2(1,1)*0.01*(10/size_dot_in_mm)*0.1*5
+		scale = MmToPixel(5)/100
 		initialVelocity = direction*listTests[iterationTest]
+
+
 	elif mode == 1:
 		direction = vel.normalized()
-		scale = Vector2(1,1)*0.01*(10/size_dot_in_mm)*listTests[iterationTest]
+		scale = MmToPixel(listTests[iterationTest])/100
 		initialVelocity = direction*5000
-	
+
+
+	print("mm")
+	print(scale.x*100)
+	print(PixelToMm(scale.x)*100)
+	print("velocidad")
+	print(initialVelocity.x)
+	print(PixelToMm(initialVelocity.x))
+	distanceUser = dUser
 	initialPosition = pos
 	initialRotationIteration = rotationIteration
 	actualRotationIteration = rotationIteration
