@@ -479,17 +479,19 @@ size_flags_vertical = 0
 alignment = 1
 
 [node name="CheckButton" type="CheckButton" parent="PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3"]
-margin_left = 495.0
-margin_right = 571.0
+margin_left = 482.0
+margin_right = 558.0
 margin_bottom = 40.0
 align = 1
 icon_align = 1
 
 [node name="SpinBox" type="SpinBox" parent="PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3"]
-margin_left = 575.0
-margin_right = 649.0
+margin_left = 562.0
+margin_right = 662.0
 margin_bottom = 40.0
-rect_min_size = Vector2( 70, 5 )
+rect_min_size = Vector2( 100, 5 )
+max_value = 99999.0
+suffix = "cm /sss"
 
 [node name="Button" type="Button" parent="."]
 anchor_left = 1.0

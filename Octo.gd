@@ -34,6 +34,7 @@ var actualTry = []
 var testIteration = 0
 var numberOfIterations = 0
 var distanceUser = 0
+var screenSizeInches = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	fps = ProjectSettings.get_setting("physics/common/physics_fps")
@@ -41,8 +42,6 @@ func _ready():
 	position = Vector2.ZERO
 	hide()
 	pass # Replace with function body.
-func mmToDegre(mm,viewing):
-	return tan(1)
 func next_move():
 	reset_internal_time()
 	stop();
@@ -104,8 +103,8 @@ func _input(event):
 		if userRotationSuccess == 1:
 			testIteration += 1
 			var currentResult = {
-				"sizeOpto": PixelToMm(scale.x)*100,
-				"speed": PixelToMm(sqrt(initialVelocity.x*initialVelocity.x+initialVelocity.y*initialVelocity.y))
+				"sizeOpto": mmToAngle(PixelToMm2(scale.x)),
+				"speed": mmToVangular()
 			}
 			actualTry.append(currentResult)
 			if testIteration >= numberOfIterations:
@@ -122,7 +121,7 @@ func _input(event):
 				actualTry = []
 				userRotationSuccess = 2
 				print("size test" + str(iterationTest))
-				print(PixelToMm(scale.x))
+				print(PixelToMm2(scale.x))
 				print(PixelToMm(initialVelocity.x))
 				if iterationTest >= listTests.size():
 					print(results)
@@ -133,20 +132,20 @@ func _input(event):
 					next_move()
 					currentTries = 0
 					if initialMode == 0:
-						scale = MmToPixel(5)/100
-						initialVelocity = direction*listTests[iterationTest]
+						scale = MmToPixel(1)
+						initialVelocity = direction*PixelToMm2(vangularToMM(listTests[iterationTest]))
 					elif initialMode == 1:
-						scale = MmToPixel(listTests[iterationTest])/100
-						initialVelocity = direction*5000	
+						scale = MmToPixel(angleToMm((listTests[iterationTest])))
+						initialVelocity = direction*PixelToMm2(vangularToMM(175.05))
 						position = initialPosition
 			else:
 				next_move()
 				if initialMode == 0:
-					scale = MmToPixel(5)/100
-					initialVelocity = direction*listTests[iterationTest]
+					scale = MmToPixel(1)
+					initialVelocity = direction*PixelToMm2(vangularToMM(listTests[iterationTest]))
 				elif initialMode == 1:
-					scale = MmToPixel(listTests[iterationTest])/100
-					initialVelocity = direction*5000	
+					scale = MmToPixel(angleToMm((listTests[iterationTest])))
+					initialVelocity = direction*PixelToMm2(vangularToMM(175.05))
 				position = initialPosition
 		elif userRotationSuccess == 0:
 			currentTries += 1
@@ -171,26 +170,24 @@ func _input(event):
 					currentTries = 0
 					next_move()
 					if initialMode == 0:
-						scale = MmToPixel(5)/100
-						initialVelocity = direction*listTests[iterationTest]
+						scale = MmToPixel(1)
+						initialVelocity = direction*PixelToMm2(vangularToMM(listTests[iterationTest]))
 					elif initialMode == 1:
-						scale = MmToPixel(listTests[iterationTest])/100
-						initialVelocity = direction*5000	
+						scale = MmToPixel(angleToMm((listTests[iterationTest])))
+						initialVelocity = direction*PixelToMm2(vangularToMM(175.05))
 					position = initialPosition
 			else:
 				next_move()
 				if initialMode == 0:
-					scale = MmToPixel(5)/100
-					initialVelocity = direction*listTests[iterationTest]
+					scale = MmToPixel(1)
+					initialVelocity = direction*PixelToMm2(vangularToMM(listTests[iterationTest]))
 				elif initialMode == 1:
-					scale = MmToPixel(listTests[iterationTest])/100
-					initialVelocity = direction*5000	
+					scale = MmToPixel(angleToMm((listTests[iterationTest])))
+					initialVelocity = direction*PixelToMm2(vangularToMM(175.05))
 				position = initialPosition
 			
 		emit_signal("debug_update")
-
 func _physics_process(delta):
-	
 	var velocity = initialVelocity
 	#var pixelPorSegundo = projectResolution.x+scale.x*100
 	velocity = velocity*delta*60 #* pixelPorSegundo * delta
@@ -201,18 +198,52 @@ func _physics_process(delta):
 		internalVelocity = (velocity)
 		emit_signal("timeout")
 		reset_internal_time()
-	
 func get_random_rotation():
 
 	var rotations = [0,-45,-90,-135,-180,-225,-270,-315]
 	actualRotation = rotations[rng.randi() % rotations.size()]
 	return actualRotation
 func MmToPixel(mm):
-	return Vector2(1,1)*(float(mm)/size_dot_in_mm)
+	return Vector2(1,1)*(float(mm)*size_dot_in_mm)
 func PixelToMm(pixel):
-	return float(pixel*size_dot_in_mm)
-	
-func start(pos,vel,swing,mode,rotationIteration, optotype_color : Color, scaleInitial,posDelay,incrementType, speed, list,resolution,screenSizeInches, maxE, nIterations, dUser):
+	return float(pixel*(size_dot_in_mm))
+func PixelToMm2(pixel):
+	return float(pixel/(size_dot_in_mm))
+func mmToAngle(mm):
+	return 2*rad2deg(atan((mm*0.5)/(distanceUser)))
+func angleToMm(angle):
+	var x = angle/2
+	var y = tan(deg2rad(x))
+	var z = 2*y*distanceUser
+	return z
+func vangularToMM(vangular):
+	var recorrido = 0
+	if direction.y == 0:
+		recorrido = projectResolution.x * size_dot_in_mm * 0.001
+	elif direction.x == 0:
+		recorrido = projectResolution.y * size_dot_in_mm * 0.001
+	else:
+		recorrido = screenSizeInches * 25.4 * 0.001
+	var distanciaObservadorm = distanceUser * 0.001
+	var anglevisualgraus = (2*(atan((recorrido/2)/distanciaObservadorm))*180)/PI
+	var r = ((vangular*recorrido)/anglevisualgraus)*1000
+	return r
+
+func mmToVangular():
+	var recorrido = 0
+	if direction.y == 0:
+		recorrido = projectResolution.x * size_dot_in_mm * 0.01
+	elif direction.x == 0:
+		recorrido = projectResolution.y * size_dot_in_mm * 0.01
+	else:
+		recorrido = screenSizeInches * 25.4 * 0.01
+	var distanciaObservadorm = distanceUser * 0.01
+	var velocidadestimulom = PixelToMm(sqrt(initialVelocity.x*initialVelocity.x+initialVelocity.y*initialVelocity.y))*0.01
+	var tempsEstimulPantalla = recorrido/velocidadestimulom
+	var anglevisualgraus = (2*(atan((recorrido/2)/distanciaObservadorm))*180)/PI
+	var r = anglevisualgraus/tempsEstimulPantalla
+	return r
+func start(pos,vel,swing,mode,rotationIteration, optotype_color : Color, scaleInitial,posDelay,incrementType, speed, list,resolution,screenI, maxE, nIterations, dUser):
 	maxErrors = maxE
 	listTests = list
 	iterationTest = 0
@@ -227,32 +258,23 @@ func start(pos,vel,swing,mode,rotationIteration, optotype_color : Color, scaleIn
 	pos.y = pos.y + posDelay.y*100*scale.y
 	position = pos
 	initialSwing = swing
+	screenSizeInches = screenI
 	var s = resolution * 1.0
 	var d = sqrt(s.x*s.x+s.y*s.y)
 	var x = (int(screenSizeInches)*1.0)/(d)
 	size_dot_in_mm = x * 0.0254*1000
 	numberOfIterations = nIterations
-
+	distanceUser = dUser
 	# speed6
 	if mode == 0:
 		direction = vel.normalized()
-		scale = MmToPixel(5)/100
-		initialVelocity = direction*listTests[iterationTest]
-
-
+		scale = MmToPixel(1)
+		initialVelocity = direction*PixelToMm2(vangularToMM(listTests[iterationTest]))
 	elif mode == 1:
 		direction = vel.normalized()
-		scale = MmToPixel(listTests[iterationTest])/100
-		initialVelocity = direction*5000
-
-
-	print("mm")
-	print(scale.x*100)
-	print(PixelToMm(scale.x)*100)
-	print("velocidad")
-	print(initialVelocity.x)
-	print(PixelToMm(initialVelocity.x))
-	distanceUser = dUser
+		scale = MmToPixel(angleToMm((listTests[iterationTest])))
+		# 5000 px/s
+		initialVelocity = direction*PixelToMm2(vangularToMM(175.05))
 	initialPosition = pos
 	initialRotationIteration = rotationIteration
 	actualRotationIteration = rotationIteration
@@ -265,12 +287,10 @@ func start(pos,vel,swing,mode,rotationIteration, optotype_color : Color, scaleIn
 	reset_internal_time()
 	set_physics_process(true)
 	show()
-	emit_signal("start_timer")
-	
+	emit_signal("start_timer")	
 func stop():
 	set_physics_process(false)
 	hide()
-	
 func _on_VisibilityNotifier2D_screen_exited():
 	travelledPixels = 0
 	if initialSwing:
@@ -290,26 +310,19 @@ func _on_VisibilityNotifier2D_screen_exited():
 	
 	emit_signal("debug_update")
 	emit_signal("start_timer")
-	
-
-	
-
 func reset_internal_time():
 	unix_time_internal = Time.get_unix_time_from_system()
-
-
-
 func _on_Octo_timeout():
 	if increment == 0:
 		 #non percentage
 		if initialMode:
 			if initialVelocity.x !=0:
-				initialVelocity.x -= speedOpto
+				initialVelocity.x -= PixelToMm2(vangularToMM(speedOpto))
 			if initialVelocity.y !=0:
-				initialVelocity.y -= speedOpto
+				initialVelocity.y -= PixelToMm2(vangularToMM(speedOpto))
 		else: 
-			scale.x += speedOpto/100.0
-			scale.y += speedOpto/100.0
+			scale.x += MmToPixel(angleToMm(speedOpto)).x
+			scale.y += MmToPixel(angleToMm(speedOpto)).x
 	else:
 		 # percentage
 		if initialMode:
