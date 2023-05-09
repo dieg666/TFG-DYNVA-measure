@@ -7,7 +7,15 @@ var swing = false
 var node_selected = ''
 var dict = {}
 var mode = 0
+func _click():
+	pass
 
+func do_a_left_click():
+	var a = InputEventMouseButton.new()
+	a.set_button_index(1)
+	a.set_pressed(true)
+	Input.parse_input_event(a)
+	print($PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.text)
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if !$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox2.pressed:
@@ -15,11 +23,11 @@ func _ready():
 	else:
 		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label.text = "Decrease speed by:"
 	if $PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/CheckButton.pressed:
-		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "%"
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "%"
 	elif $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox.pressed:
-		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "cm"
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "º"
 	elif $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox2.pressed:
-		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "cm/s"
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "º/s"
 	$Save.hide()
 	pass # Replace with function body.
 func get_background_color():
@@ -27,6 +35,7 @@ func get_background_color():
 func get_optotype_color():
 	return $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer3/ColorOptotype.color.to_html()
 func _on_Start_pressed():
+	_click()
 	var values = get_values($PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ScrollContainer/HBoxContainer.get_children())
 	if values == []:
 		# TODO add text
@@ -44,11 +53,11 @@ func _on_CheckBox2_pressed():
 	else: 
 		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label.text = "Decrease speed by:"
 	if $PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/CheckButton.pressed:
-		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "%"
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "%"
 	elif $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox.pressed:
-		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "cm"
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "º"
 	elif $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox2.pressed:
-		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "cm/s"
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "º/s"
 	renumerate_values($PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ScrollContainer/HBoxContainer.get_children())
 	pass # Replace with function body.
 static func delete_children(node):
@@ -65,11 +74,11 @@ func _on_CheckBox_pressed():
 	else: 
 		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label.text = "Decrease speed by:"
 	if $PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/CheckButton.pressed:
-		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "%"
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "%"
 	elif $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox.pressed:
-		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "cm"
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "º"
 	elif $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox2.pressed:
-		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "cm/s"
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "º/s"
 	renumerate_values($PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ScrollContainer/HBoxContainer.get_children())
 func renumerate_values(container):
 	var i = 1
@@ -112,15 +121,13 @@ func change_to_mode(encoded_mode):
 		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label.text = "Decrease speed by:"
 	$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/CheckButton.pressed = '0' != encoded_mode[3]
 	if '0' != encoded_mode[3]:
-		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "%"
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "%"
 	elif '0' == encoded_mode[1]:
-		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "cm"
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "º"
 	else:
-		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "cm/s"
-	print("encoded_mode")
-	print("encoded mode:")
-	print(encoded_mode)
-	$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.value = int(encoded_mode.substr(4,3))
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "º/s"
+	$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.text = (encoded_mode.split("///")[0].substr(4,-1))
+	$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.value = (encoded_mode.split("///")[0].substr(4,-1))
 func initialize(d, background_color, optotype_color):
 	delete_children($PanelContainer/HBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer)
 	$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2/ColorBackgroundButton.color = background_color
@@ -130,8 +137,8 @@ func initialize(d, background_color, optotype_color):
 		var buttons_pck = preload("res://UI-Godot/ButtonSave.tscn")
 		var buttons = buttons_pck.instance()
 		buttons.connect("load_is_done", self, "_load_is_done" )
-		buttons.text = item.substr(7,-1)
-		buttons.mode = item.substr(0,7)
+		buttons.text = item.split("///")[1]
+		buttons.mode = item.split("///")[0]
 		if buttons.text == node_selected:
 			buttons.pressed()
 		$PanelContainer/HBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer.add_child(buttons)
@@ -151,6 +158,7 @@ func _on_Button2_pressed():
 	$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/Label.text = "Increase size by:"
 	$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/CheckButton.pressed = false
 	$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.value = 0
+	$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.text = "0"
 	delete_children($PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ScrollContainer/HBoxContainer)
 	$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/Button.pressed = false
 	$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ScrollContainer/HBoxContainer.add_child(buttons)	
@@ -180,7 +188,7 @@ func get_values(list):
 	return l
 func _get_key_from_dict(value):
 	for i in dict.keys():
-		if value == i.substr(7,-1):
+		if value == i.split("///")[1]:
 			return i
 	return ""
 func _load_is_done(id):
@@ -212,6 +220,8 @@ func _on_Control_save_is_done():
 	else:
 		save(_get_mode(),value)
 func _on_Button4_pressed():
+	$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.value = 0
+	$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.text = "0"
 	for item in $PanelContainer/HBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer.get_children():
 		if item.is_pressed():
 			dict.erase(_get_key_from_dict(item.text))
@@ -240,15 +250,16 @@ func _get_mode():
 	encoded_mode += str(int(!$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox.pressed))
 	encoded_mode += str(state)
 	encoded_mode += str(int($PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/CheckButton.pressed))
-	encoded_mode += "%03d"%[$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.value]
+	encoded_mode += str($PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.text)
+	encoded_mode += "///"
 	return encoded_mode
 func _on_CheckButton_pressed():
 	if $PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/CheckButton.pressed:
-		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "%"
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "%"
 	elif $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox.pressed:
-		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "cm"
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "º"
 	elif $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox2.pressed:
-		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.suffix = "cm/s"
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "º/s"
 
 	pass # Replace with function body.
 
@@ -256,3 +267,8 @@ func _on_CheckButton_pressed():
 func _on_LinkButton_pressed():
 	OS.execute("rundll32",["url.dll","FileProtocolHandler","https://github.com/dieg666/TFG-DYNVA-measure/blob/main/TFG-2.pdf"])
 	pass # Replace with function body.
+
+
+
+func _on_SpinBox_value_changed(value):
+	pass

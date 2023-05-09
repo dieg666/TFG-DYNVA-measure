@@ -47,6 +47,7 @@ func _ready():
 		save_game.close()
 	else: 
 		color_data_optotype = Color.black
+	
 	$HUD.initialize(node_data as Dictionary, color_data_background as Color, color_data_optotype as Color)
 	$DebugMode.hide()
 	screen_size = $Octo.get_viewport_rect().size
@@ -92,7 +93,7 @@ func start_game(mode, _list):
 	var swing = int(mode[0])
 	run_mode = int(mode[1])
 	incrementType = int(mode[3])
-	var speed = int(mode.substr(4,3))
+	var speed = float(mode.split("///")[0].substr(4, -1))
 	var rotationIteration = 5
 	$HUD.hide()
 	var s = resolution * 1.0
@@ -152,14 +153,20 @@ func _on_Octo_debug_update():
 		$DebugMode.hide()
 	pass # Replace with function body.
 
-
-
 func _on_Octo_show_score():
 	$Score.show()
 	$Octo.hide()
 	$Octo.stop()
 	$DebugMode.hide()
-	$Score.score = $Octo.score
-	$Score.iterations = $Octo.iterations
+	$Score.parsedValues = $Octo.parsedValues
 	emit_signal("show_score")
 	
+
+
+func _on_Score_home():
+	$DebugMode.hide()
+	$Octo.stop()
+	$Octo.hide()
+	$Score.hide()
+	$HUD.show()
+	pass # Replace with function body.

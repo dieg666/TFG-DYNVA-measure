@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://UI-Godot/HUD.gd" type="Script" id=1]
 [ext_resource path="res://UI-Godot/buttonLeft.tres" type="DynamicFont" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://UI-Godot/Save.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Fonts/font.ttf" type="DynamicFontData" id=5]
 [ext_resource path="res://Art/Fonts/font.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://UI-Godot/SpinBox2.gd" type="Script" id=7]
 
 [sub_resource type="StyleBoxFlat" id=7]
 
@@ -332,7 +333,7 @@ margin_bottom = 76.0
 size_flags_horizontal = 11
 size_flags_vertical = 11
 theme = SubResource( 16 )
-min_value = 24.0
+min_value = 10.0
 value = 27.0
 exp_edit = true
 suffix = "inches"
@@ -479,19 +480,25 @@ size_flags_vertical = 0
 alignment = 1
 
 [node name="CheckButton" type="CheckButton" parent="PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3"]
-margin_left = 482.0
-margin_right = 558.0
+margin_left = 468.0
+margin_right = 544.0
 margin_bottom = 40.0
 align = 1
 icon_align = 1
 
-[node name="SpinBox" type="SpinBox" parent="PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3"]
-margin_left = 562.0
-margin_right = 662.0
+[node name="SpinBox" type="LineEdit" parent="PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3"]
+margin_left = 548.0
+margin_right = 648.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 100, 5 )
-max_value = 99999.0
-suffix = "cm /sss"
+script = ExtResource( 7 )
+
+[node name="Label" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3"]
+margin_left = 652.0
+margin_top = 13.0
+margin_right = 677.0
+margin_bottom = 27.0
+text = "test"
 
 [node name="Button" type="Button" parent="."]
 anchor_left = 1.0

@@ -2,39 +2,65 @@ extends Node2D
 signal debug_update
 signal start_timer
 signal show_score
-
 signal timeout
+
 var initialPosition = Vector2.ZERO 
 var initialVelocity = Vector2.ZERO 
 var initialSwing = false
 var initialMode = false
 var initialRotationIteration = 5
 var actualRotationIteration = 5
-var actualRotation = 0
-var score = 0
+var actualRotation = 0.0
+var score = 0.0
 var iterations = 1
 var rng = RandomNumberGenerator.new()
 var projectResolution
-var size_dot = 0
+var size_dot = 0.0
 var unix_time_internal: float = 999999
 var userRotationSuccess = 2 # 0 is false, 1 is true, 2 is not defined
 var travelledPixels = 0
 var fps = 1
 var internalVelocity = 0 # display purposes
 var increment
-var speedOpto
-var iterationTest = 0
+var speedOpto = 0.0
+var iterationTest = 0.0
 var direction = Vector2.ZERO
 var listTests = []
 var size_dot_in_mm = 0 
 var maxErrors
 var results = {}
-var currentTries = 0
+var currentTries = 0.0
 var actualTry = []
 var testIteration = 0
-var numberOfIterations = 0
-var distanceUser = 0
-var screenSizeInches = 0
+var numberOfIterations = 0.0
+var distanceUser = 0.0
+var screenSizeInches = 0.0
+var parsedValues = {}
+func parseScore():
+	parsedValues = {}
+	for i in range(0,listTests.size()):
+		if (results[i+1]['valid'] == "true"):
+			parsedValues[i] = score(results[i+1]['values'])
+		else:
+			parsedValues[i] = [-1,-1,-1]
+func score (values):
+	var aLogMar = 0.0
+	var aDec = 0.0
+	var aSpeed = 0.0
+	for item in values:
+		var LogMarAux = log(item["sizeOpto"]*60)/log(10)
+		aLogMar += LogMarAux 
+		aDec += pow(10, -LogMarAux)
+		aSpeed += item["speed"]
+	aLogMar = aLogMar/values.size()
+	aDec = aDec/values.size()
+	aSpeed = aSpeed/values.size()
+	print("kek")
+	print(aLogMar)
+	print(aDec)
+	print(aSpeed)
+	return [aLogMar, aDec, aSpeed]
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	fps = ProjectSettings.get_setting("physics/common/physics_fps")
@@ -120,11 +146,9 @@ func _input(event):
 				results[iterationTest] = result
 				actualTry = []
 				userRotationSuccess = 2
-				print("size test" + str(iterationTest))
-				print(PixelToMm2(scale.x))
-				print(PixelToMm(initialVelocity.x))
+
 				if iterationTest >= listTests.size():
-					print(results)
+					parseScore()
 					emit_signal("show_score")
 					stop()
 					return 0
@@ -162,7 +186,7 @@ func _input(event):
 				actualTry = []
 				results[iterationTest] = result
 				if iterationTest >= listTests.size():
-					print(results)
+					parseScore()
 					emit_signal("show_score")
 					stop()
 					return 0
@@ -195,11 +219,11 @@ func _physics_process(delta):
 	position += velocity*delta
 	if Time.get_unix_time_from_system() - unix_time_internal > 2:
 		emit_signal("debug_update")
+		rotation = deg2rad(get_random_rotation())
 		internalVelocity = (velocity)
 		emit_signal("timeout")
 		reset_internal_time()
 func get_random_rotation():
-
 	var rotations = [0,-45,-90,-135,-180,-225,-270,-315]
 	actualRotation = rotations[rng.randi() % rotations.size()]
 	return actualRotation
@@ -212,9 +236,9 @@ func PixelToMm2(pixel):
 func mmToAngle(mm):
 	return 2*rad2deg(atan((mm*0.5)/(distanceUser)))
 func angleToMm(angle):
-	var x = angle/2
-	var y = tan(deg2rad(x))
-	var z = 2*y*distanceUser
+	var x = float(angle/2.0)
+	var y = float(tan(deg2rad(x)))
+	var z = float(2.0*y*distanceUser)
 	return z
 func vangularToMM(vangular):
 	var recorrido = 0
@@ -228,7 +252,6 @@ func vangularToMM(vangular):
 	var anglevisualgraus = (2*(atan((recorrido/2)/distanciaObservadorm))*180)/PI
 	var r = ((vangular*recorrido)/anglevisualgraus)*1000
 	return r
-
 func mmToVangular():
 	var recorrido = 0
 	if direction.y == 0:
@@ -244,6 +267,8 @@ func mmToVangular():
 	var r = anglevisualgraus/tempsEstimulPantalla
 	return r
 func start(pos,vel,swing,mode,rotationIteration, optotype_color : Color, scaleInitial,posDelay,incrementType, speed, list,resolution,screenI, maxE, nIterations, dUser):
+	parsedValues = {}
+	results = {}
 	maxErrors = maxE
 	listTests = list
 	iterationTest = 0
@@ -316,13 +341,16 @@ func _on_Octo_timeout():
 	if increment == 0:
 		 #non percentage
 		if initialMode:
+			var negativeValue = initialVelocity.x < 0
 			if initialVelocity.x !=0:
 				initialVelocity.x -= PixelToMm2(vangularToMM(speedOpto))
 			if initialVelocity.y !=0:
 				initialVelocity.y -= PixelToMm2(vangularToMM(speedOpto))
+			if negativeValue != (initialVelocity.x < 0):
+				initialVelocity = Vector2(0,0)
 		else: 
-			scale.x += MmToPixel(angleToMm(speedOpto)).x
-			scale.y += MmToPixel(angleToMm(speedOpto)).x
+			scale += MmToPixel(angleToMm(speedOpto))
+
 	else:
 		 # percentage
 		if initialMode:
@@ -331,5 +359,3 @@ func _on_Octo_timeout():
 			scale.x *= 1+speedOpto/100.0
 			scale.y *= 1+speedOpto/100.0
 
-	#scale *=1.05
-	pass # Replace with function body.
