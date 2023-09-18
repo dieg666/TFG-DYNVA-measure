@@ -25,7 +25,7 @@ func _ready():
 	if $PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/CheckButton.pressed:
 		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "%"
 	elif $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox.pressed:
-		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "º"
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "logMAR"
 	elif $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox2.pressed:
 		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "º/s"
 	$Save.hide()
@@ -55,7 +55,7 @@ func _on_CheckBox2_pressed():
 	if $PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/CheckButton.pressed:
 		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "%"
 	elif $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox.pressed:
-		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "º"
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "logMAR"
 	elif $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox2.pressed:
 		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "º/s"
 	renumerate_values($PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ScrollContainer/HBoxContainer.get_children())
@@ -76,7 +76,7 @@ func _on_CheckBox_pressed():
 	if $PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/CheckButton.pressed:
 		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "%"
 	elif $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox.pressed:
-		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "º"
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "logMAR"
 	elif $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox2.pressed:
 		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "º/s"
 	renumerate_values($PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ScrollContainer/HBoxContainer.get_children())
@@ -87,7 +87,7 @@ func renumerate_values(container):
 		if $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox.pressed:
 			button.set_sufix("º/s")
 		else: 
-			button.set_sufix("º")
+			button.set_sufix("logMAR")
 		i += 1
 func _on_VBoxContainer_add():
 	for button in $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ScrollContainer/HBoxContainer.get_children():
@@ -123,7 +123,7 @@ func change_to_mode(encoded_mode):
 	if '0' != encoded_mode[3]:
 		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "%"
 	elif '0' == encoded_mode[1]:
-		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "º"
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "logMAR"
 	else:
 		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "º/s"
 	$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.text = (encoded_mode.split("///")[0].substr(4,-1))
@@ -257,7 +257,7 @@ func _on_CheckButton_pressed():
 	if $PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/CheckButton.pressed:
 		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "%"
 	elif $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox.pressed:
-		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "º"
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "logMAR"
 	elif $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox2.pressed:
 		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "º/s"
 

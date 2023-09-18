@@ -36,6 +36,40 @@ var numberOfIterations = 0.0
 var distanceUser = 0.0
 var screenSizeInches = 0.0
 var parsedValues = {}
+var logMarActual = 0.0
+func resetValues():
+	initialPosition = Vector2.ZERO 
+	initialVelocity = Vector2.ZERO 
+	initialSwing = false
+	initialMode = false
+	initialRotationIteration = 5
+	actualRotationIteration = 5
+	actualRotation = 0.0
+	score = 0.0
+	iterations = 1
+	rng = RandomNumberGenerator.new()
+	projectResolution
+	size_dot = 0.0
+	unix_time_internal = 999999
+	userRotationSuccess = 2 # 0 is false, 1 is true, 2 is not defined
+	travelledPixels = 0
+	fps = 1
+	internalVelocity = 0 # display purposes
+	increment
+	speedOpto = 0.0
+	iterationTest = 0.0
+	direction = Vector2.ZERO
+	listTests = []
+	size_dot_in_mm = 0 
+	maxErrors
+	results = {}
+	currentTries = 0.0
+	actualTry = []
+	testIteration = 0
+	numberOfIterations = 0.0
+	distanceUser = 0.0
+	screenSizeInches = 0.0
+	parsedValues = {}
 func parseScore():
 	parsedValues = {}
 	for i in range(0,listTests.size()):
@@ -55,12 +89,17 @@ func score (values):
 	aLogMar = aLogMar/values.size()
 	aDec = aDec/values.size()
 	aSpeed = aSpeed/values.size()
-	print("kek")
-	print(aLogMar)
-	print(aDec)
-	print(aSpeed)
-	return [aLogMar, aDec, aSpeed]
 
+	return [aLogMar, aDec, aSpeed]
+func logMar(val):
+	return log(val*60)/log(10)
+#mmToAngle(PixelToMm2(scale.x)
+func logMarToPixel(logMar):
+	var angle = pow(10,logMar)
+	var mm = angleToMm(angle)
+
+	print(MmToPixel(mm))
+	return MmToPixel(mm)
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	fps = ProjectSettings.get_setting("physics/common/physics_fps")
@@ -156,19 +195,19 @@ func _input(event):
 					next_move()
 					currentTries = 0
 					if initialMode == 0:
-						scale = MmToPixel(1)
+						scale = logMarToPixel(1.2)
 						initialVelocity = direction*PixelToMm2(vangularToMM(listTests[iterationTest]))
 					elif initialMode == 1:
-						scale = MmToPixel(angleToMm((listTests[iterationTest])))
+						scale = logMarToPixel((listTests[iterationTest]))
 						initialVelocity = direction*PixelToMm2(vangularToMM(175.05))
 						position = initialPosition
 			else:
 				next_move()
 				if initialMode == 0:
-					scale = MmToPixel(1)
+					scale = logMarToPixel(1.2)
 					initialVelocity = direction*PixelToMm2(vangularToMM(listTests[iterationTest]))
 				elif initialMode == 1:
-					scale = MmToPixel(angleToMm((listTests[iterationTest])))
+					scale = logMarToPixel((listTests[iterationTest]))
 					initialVelocity = direction*PixelToMm2(vangularToMM(175.05))
 				position = initialPosition
 		elif userRotationSuccess == 0:
@@ -194,19 +233,19 @@ func _input(event):
 					currentTries = 0
 					next_move()
 					if initialMode == 0:
-						scale = MmToPixel(1)
+						scale = logMarToPixel(1.2)
 						initialVelocity = direction*PixelToMm2(vangularToMM(listTests[iterationTest]))
 					elif initialMode == 1:
-						scale = MmToPixel(angleToMm((listTests[iterationTest])))
+						scale = logMarToPixel((listTests[iterationTest]))
 						initialVelocity = direction*PixelToMm2(vangularToMM(175.05))
 					position = initialPosition
 			else:
 				next_move()
 				if initialMode == 0:
-					scale = MmToPixel(1)
+					scale = logMarToPixel(1.2)
 					initialVelocity = direction*PixelToMm2(vangularToMM(listTests[iterationTest]))
 				elif initialMode == 1:
-					scale = MmToPixel(angleToMm((listTests[iterationTest])))
+					scale = logMarToPixel(1.2)
 					initialVelocity = direction*PixelToMm2(vangularToMM(175.05))
 				position = initialPosition
 			
@@ -293,11 +332,14 @@ func start(pos,vel,swing,mode,rotationIteration, optotype_color : Color, scaleIn
 	# speed6
 	if mode == 0:
 		direction = vel.normalized()
-		scale = MmToPixel(1)
+		print("scale antes primera conversión modo 0 +", str(scale))
+		logMarActual = -1.0
+		scale = logMarToPixel(logMarActual)
+		print("scale después primera conversión modo 0 +", str(scale))
 		initialVelocity = direction*PixelToMm2(vangularToMM(listTests[iterationTest]))
 	elif mode == 1:
 		direction = vel.normalized()
-		scale = MmToPixel(angleToMm((listTests[iterationTest])))
+		scale = logMarToPixel((listTests[iterationTest]))
 		# 5000 px/s
 		initialVelocity = direction*PixelToMm2(vangularToMM(175.05))
 	initialPosition = pos
@@ -314,6 +356,7 @@ func start(pos,vel,swing,mode,rotationIteration, optotype_color : Color, scaleIn
 	show()
 	emit_signal("start_timer")	
 func stop():
+
 	set_physics_process(false)
 	hide()
 func _on_VisibilityNotifier2D_screen_exited():
@@ -349,13 +392,16 @@ func _on_Octo_timeout():
 			if negativeValue != (initialVelocity.x < 0):
 				initialVelocity = Vector2(0,0)
 		else: 
-			scale += MmToPixel(angleToMm(speedOpto))
-
+			print("scale antes n conversión modo 0 +", str(scale))
+			logMarActual += speedOpto
+			scale += logMarToPixel(logMarActual)
+			print("scale antes n conversión modo 0 +", str(scale))
 	else:
 		 # percentage
 		if initialMode:
 			initialVelocity /= 1+speedOpto/100.0*1.0
-		else: 
+		else:
+			
 			scale.x *= 1+speedOpto/100.0
 			scale.y *= 1+speedOpto/100.0
 

@@ -113,6 +113,7 @@ func start_game(mode, _list):
 	
 func _process(_delta):
 	if Input.is_action_pressed("escape"):
+		$Octo.resetValues()
 		$Octo.hide()
 		$Octo.stop()
 		$DebugMode.hide()
