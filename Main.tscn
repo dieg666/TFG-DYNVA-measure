@@ -11,14 +11,20 @@ script = ExtResource( 1 )
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
 
 [node name="StartPosition" type="Position2D" parent="."]
+rotation = 0.241716
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Octo" parent="." instance=ExtResource( 2 )]
 
 [node name="DebugMode" parent="." instance=ExtResource( 4 )]
 
 [node name="HUD" parent="." instance=ExtResource( 3 )]
+rect_rotation = 0.0
 
 [connection signal="show_debug_stats" from="." to="DebugMode" method="show_debug_stats"]
 [connection signal="debug_update" from="Octo" to="." method="_on_Octo_debug_update"]
