@@ -22,6 +22,15 @@ func modify_label_text(text):
 func get_edited_text():
 	return $VBoxContainer/LineEdit.text
 
+func _on_HUD_show_override():
+	$YesOrNoVBoxContainer/Label.text = "Test '"+ text+ "' already exists. Do you want to override?"
+	$VBoxContainer.hide()
+	$YesOrNoVBoxContainer.visible = false
+	$YesOrNoVBoxContainer.call_deferred("set_visible", true)
+	$YesOrNoVBoxContainer.show()
+	pass # Replace with function body.
+
+
 
 func _on_Button_pressed():
 	if $VBoxContainer/LineEdit.text == '':

@@ -1,12 +1,21 @@
 extends Control
 signal start_game
 signal show_override
-signal exit
+signal exit 
 var state = 0
 var swing = false
-var mode = true
+var node_selected = ''
 var dict = {}
+var mode = 0
+func _click():
+	pass
 
+func do_a_left_click():
+	var a = InputEventMouseButton.new()
+	a.set_button_index(1)
+	a.set_pressed(true)
+	Input.parse_input_event(a)
+	print($PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.text)
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$SaveView.hide()
@@ -19,7 +28,10 @@ func initialize(d):
 		var buttons_pck = preload("res://UI-Godot/ButtonSave.tscn")
 		var buttons = buttons_pck.instance()
 		buttons.connect("load_is_done", self, "_load_is_done" )
-		buttons.text = item
+		buttons.text = item.split("///")[1]
+		buttons.mode = item.split("///")[0]
+		if buttons.text == node_selected:
+			buttons.pressed()
 		$PanelContainer/HBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer.add_child(buttons)
 func _on_Start_pressed():
 	emit_signal("start_game")
@@ -84,6 +96,11 @@ func get_values(list):
 	for item in list:
 		l.append(item.value())
 	return l
+func _get_key_from_dict(value):
+	for i in dict.keys():
+		if value == i.split("///")[1]:
+			return i
+	return ""
 func _load_is_done(id):
 	for item in $PanelContainer/HBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer.get_children():
 		if item.get_instance_id() != id:
@@ -97,6 +114,8 @@ func _load_is_done(id):
 				buttons.connect("delete", self, "_on_TestsBoxVBoxContainer_delete" )
 				buttons.connect("add", self, "_on_TestsBoxVBoxContainer_add" )
 				buttons.set_value(k)
+				change_to_mode(_get_key_from_dict(item.text))
+				i += 1
 				$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ScrollContainer/HBoxContainer.add_child(buttons)
 func _OnSaveView__done():
 	var value =  $SaveView.get_edited_text()
@@ -108,11 +127,11 @@ func _OnSaveView__done():
 func _on_DeleteSingleTestButton_pressed():
 	for item in $PanelContainer/HBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer.get_children():
 		if item.is_pressed():
-			dict.erase(item.text)
+			dict.erase(_get_key_from_dict(item.text))
 			$PanelContainer/HBoxContainer/VBoxContainer2/ScrollContainer/VBoxContainer.remove_child(item)
 			Utils.delete_children($PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/ScrollContainer/HBoxContainer)
 			return 
-func save(value):
+func save(encoded_mode, value):
 	$PanelContainer.show()
 	$CheckBox.show()
 	$SaveView.hide()
@@ -127,4 +146,31 @@ func _on_SaveView_override(choice):
 		save(value)
 	else:
 		_save_test_pressed()
+func _get_mode():
+	var encoded_mode = ''
+	encoded_mode += str(int($PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/Button.pressed))
+	encoded_mode += str(int(!$PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox.pressed))
+	encoded_mode += str(state)
+	encoded_mode += str(int($PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/CheckButton.pressed))
+	encoded_mode += str($PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox.text)
+	encoded_mode += "///"
+	return encoded_mode
+func _on_CheckButton_pressed():
+	if $PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/CheckButton.pressed:
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "%"
+	elif $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox.pressed:
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "logMAR"
+	elif $PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox2.pressed:
+		$PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/Label.text = "º/s"
 
+	pass # Replace with function body.
+
+
+func _on_LinkButton_pressed():
+	OS.execute("rundll32",["url.dll","FileProtocolHandler","https://github.com/dieg666/TFG-DYNVA-measure/blob/main/TFG-2.pdf"])
+	pass # Replace with function body.
+
+
+
+func _on_SpinBox_value_changed(value):
+	pass

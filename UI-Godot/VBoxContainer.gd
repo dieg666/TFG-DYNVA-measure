@@ -4,16 +4,19 @@ signal add
 var button
 var num
 var rightClick
+var text = ''
 # Declare member variables here. Examples:
 # var a = 2
-
+func set_text(t):
+	$Button.text = str(t)
+func set_sufix(t):
+	$SpinBox.suffix = str(t)
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	rightClick= 0
 	button =  Button.new()
-	button.text = "kek"
 	num = SpinBox.new()
-
+	
 	pass # Replace with function body.
 func set_value(v):
 	$SpinBox.value = v

@@ -1,18 +1,55 @@
 extends Node
+signal show_score
 signal show_debug_stats
 var screen_size
 var velocities
 var positions
 var run_mode
-
+var position_delay
+var resolution 
+var size_dot_in_mm
+var incrementType
+var score = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	$Score.hide()
+	resolution = OS.get_screen_size()
+	#resolution = Vector2(1280,720)
+	$Octo.projectResolution = resolution
+	$ColorRect.set_size(Vector2(3000,3000))
+	get_tree().set_screen_stretch(
+		SceneTree.STRETCH_MODE_2D, SceneTree.STRETCH_ASPECT_KEEP, resolution
+	)
+	OS.set_window_size(resolution)
+	var node_data = {}
+	var color_data_background = Color.white
+	var color_data_optotype = Color.black
 	var save_game = File.new()
 	if  save_game.file_exists("user://save.save"):
 		save_game.open("user://save.save", File.READ)
 		var node_data = parse_json(save_game.get_line())
 		$HUD.initialize(node_data as Dictionary)
 		save_game.close()
+	
+	save_game = File.new()
+	if  save_game.file_exists("user://colorBackground.save"):
+		save_game.open("user://colorBackground.save", File.READ)
+		color_data_background = save_game.get_line()
+		color_data_background = Color(color_data_background)
+		save_game.close()
+	else: 
+		color_data_background = Color.white
+		
+	save_game = File.new()
+	if  save_game.file_exists("user://colorOptotype.save"):
+		save_game.open("user://colorOptotype.save", File.READ)
+		color_data_optotype = save_game.get_line()
+		color_data_optotype = Color(color_data_optotype)
+		save_game.close()
+	else: 
+		color_data_optotype = Color.black
+	
+	$HUD.initialize(node_data as Dictionary, color_data_background as Color, color_data_optotype as Color)
 	$DebugMode.hide()
 	screen_size = $Octo.get_viewport_rect().size
 	positions = [
@@ -35,6 +72,18 @@ func _ready():
 		Vector2(0,-screen_size.y),
 		Vector2(screen_size.x,-screen_size.y)
 		]
+	position_delay = [
+		Vector2(-1,0),
+		Vector2(0,0),#Vector2(-1,-1),
+		Vector2(0,-1),
+		Vector2(0,0),#Vector2(1,-1),
+		Vector2(1,0),
+		Vector2(0,0),#Vector2(1,1),
+		Vector2(0,1),
+		Vector2(0,0),#Vector2(-1,1)
+	]
+func correct_scale(scale):
+	var screenSizeInches = $HUD/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer4/SpinBox.value
 	
 func start_game():
 	$ColorRect.color = Color(1, 1, 1, 1)
@@ -43,10 +92,20 @@ func start_game():
 	run_mode = $HUD.mode
 	var rotationIteration = 5
 	$HUD.hide()
-	$Octo.start(positions[index], velocities[index],swing,run_mode,rotationIteration)
-	_on_Octo_debug_update()
-	if $HUD/CheckBox.pressed:
+	var s = resolution * 1.0
+	var d = sqrt(s.x*s.x+s.y*s.y)
+	var x = (int(screenSizeInches)*1.0)/(d)
+	size_dot_in_mm = x * 0.0254*1000
+	var distanceUser = $HUD/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer5/SpinBox2.value * 10
+	var gap = 1 #cm
+	var scale = 0.01*(10/size_dot_in_mm)*gap*5
+	var maxErrors = $HUD/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer6/SpinBox.value
+	var numberIterations = $HUD/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer7/SpinBox.value
+	$Octo.start(positions[index], velocities[index],swing,run_mode,rotationIteration, optotype_color, scale,position_delay[index], incrementType, speed, _list,resolution,screenSizeInches,maxErrors,numberIterations,distanceUser)
+	#_on_Octo_debug_update()
+	if $HUD/VBoxContainer/CheckBox.pressed:
 		$DebugMode.show()
+		
 	
 func _process(_delta):
 	if Input.is_action_pressed("escape"):
@@ -54,24 +113,56 @@ func _process(_delta):
 		$Octo.stop()
 		$DebugMode.hide()
 		$HUD.show()
-		
+		$Score.hide()		
 func exit():
 	var dict = $HUD.getData()
 	var save_game = File.new()
-	save_game.open("user://save.save", File.WRITE)
+	
+	save_game.open("user://runs.save", File.WRITE)
 	save_game.store_line(to_json(dict))
 	save_game.close()
+	
+	save_game = File.new()
+	save_game.open("user://colorBackground.save", File.WRITE)
+	save_game.store_line($HUD.get_background_color())
+	save_game.close()
+	
+	save_game = File.new()
+	save_game.open("user://colorOptotype.save", File.WRITE)
+	save_game.store_line($HUD.get_optotype_color())
+	save_game.close()
+	
 	get_tree().quit()
 func _on_Octo_debug_update():
-	if $HUD/CheckBox.pressed:
-		$DebugMode.velocity = $Octo.speed
-		$DebugMode.size = $Octo.size
+	if $HUD/VBoxContainer/CheckBox.pressed:
+		$DebugMode.velocity = $Octo.internalVelocity
+		$DebugMode.size = 100*$Octo.scale
 		$DebugMode.rotationDegree = $Octo.actualRotation
 		$DebugMode.userRotationSuccess = $Octo.userRotationSuccess
 		$DebugMode.score = $Octo.score
 		$DebugMode.iterations = $Octo.iterations
+		$DebugMode.travelledPixels = $Octo.travelledPixels
+
 		emit_signal("show_debug_stats")
+		
 	else:
 		$DebugMode.hide()
 	pass # Replace with function body.
 
+func _on_Octo_show_score():
+	$Score.show()
+	$Octo.hide()
+	$Octo.stop()
+	$DebugMode.hide()
+	$Score.parsedValues = $Octo.parsedValues
+	emit_signal("show_score")
+	
+
+
+func _on_Score_home():
+	$DebugMode.hide()
+	$Octo.stop()
+	$Octo.hide()
+	$Score.hide()
+	$HUD.show()
+	pass # Replace with function body.

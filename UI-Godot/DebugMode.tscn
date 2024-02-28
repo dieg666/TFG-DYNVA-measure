@@ -49,3 +49,17 @@ margin_right = 90.0
 margin_bottom = 131.0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "Score: "
+
+[node name="Label6" type="Label" parent="HBoxContainer"]
+margin_top = 90.0
+margin_right = 102.0
+margin_bottom = 104.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Timer:"
+
+[node name="Label7" type="Label" parent="HBoxContainer"]
+margin_top = 108.0
+margin_right = 102.0
+margin_bottom = 122.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "travelled Pixels:"
