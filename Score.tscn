@@ -24,6 +24,7 @@ margin_left = -157.5
 margin_top = -65.0
 margin_right = 157.5
 margin_bottom = 65.0
+window_title = "Guardar un Archivo"
 access = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]

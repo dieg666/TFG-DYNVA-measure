@@ -1,22 +1,21 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://UI-Godot/HUD.gd" type="Script" id=1]
+[ext_resource path="res://UI-Godot/buttonLeft.tres" type="DynamicFont" id=2]
 [ext_resource path="res://Art/Fonts/NotoEmoji-VariableFont_wght.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://UI-Godot/Save.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Art/Theme/MinimalUI/MinimalUI.tres" type="Theme" id=5]
+[ext_resource path="res://Fonts/font.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://Art/Fonts/font.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://UI-Godot/SpinBox2.gd" type="Script" id=7]
 
-[sub_resource type="StyleBoxFlat" id=10]
-bg_color = Color( 0, 0, 0, 1 )
+[sub_resource type="StyleBoxFlat" id=7]
+
+[sub_resource type="Theme" id=8]
+/styles/color = SubResource( 7 )
 
 [sub_resource type="DynamicFont" id=9]
 size = 50
 font_data = ExtResource( 3 )
-
-[sub_resource type="StyleBoxEmpty" id=11]
-
-[sub_resource type="StyleBoxEmpty" id=14]
-
-[sub_resource type="StyleBoxEmpty" id=15]
 
 [sub_resource type="DynamicFont" id=4]
 font_data = ExtResource( 3 )
@@ -40,27 +39,75 @@ Button/styles/pressed = null
 size = 50
 font_data = ExtResource( 3 )
 
-[sub_resource type="StyleBoxEmpty" id=12]
+[sub_resource type="DynamicFont" id=10]
+size = 50
+font_data = ExtResource( 5 )
 
-[sub_resource type="StyleBoxEmpty" id=13]
+[sub_resource type="DynamicFont" id=14]
+size = 35
+font_data = ExtResource( 6 )
 
-[sub_resource type="StyleBoxEmpty" id=16]
+[sub_resource type="Image" id=27]
+data = {
+"data": PoolByteArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 223, 103, 225, 102, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 224, 57, 224, 248, 224, 250, 226, 61, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 223, 24, 224, 228, 224, 255, 224, 255, 224, 231, 227, 27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 204, 5, 223, 194, 224, 255, 224, 255, 224, 255, 224, 255, 224, 199, 219, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 223, 153, 224, 255, 224, 255, 224, 255, 224, 255, 224, 255, 224, 255, 225, 160, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 223, 153, 224, 255, 224, 255, 224, 255, 224, 255, 224, 255, 224, 255, 225, 152, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 204, 5, 223, 194, 224, 255, 224, 255, 224, 255, 224, 255, 224, 198, 219, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 223, 24, 224, 228, 224, 255, 224, 255, 224, 231, 227, 27, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 223, 56, 224, 248, 224, 250, 226, 61, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 225, 102, 225, 102, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ),
+"format": "LumAlpha8",
+"height": 16,
+"mipmaps": false,
+"width": 16
+}
 
-[sub_resource type="StyleBoxEmpty" id=17]
+[sub_resource type="ImageTexture" id=18]
+flags = 12
+flags = 12
+image = SubResource( 27 )
+size = Vector2( 16, 16 )
 
-[sub_resource type="StyleBoxEmpty" id=18]
+[sub_resource type="DynamicFont" id=15]
+size = 40
+extra_spacing_space = 1
+font_data = ExtResource( 5 )
 
-[node name="HUD" type="Control"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -512.0
-margin_top = -300.0
-margin_right = 512.0
-margin_bottom = 300.0
-theme = ExtResource( 5 )
+[sub_resource type="Theme" id=16]
+default_font = SubResource( 15 )
+SpinBox/icons/updown = SubResource( 18 )
+
+[sub_resource type="DynamicFont" id=13]
+size = 49
+outline_color = Color( 0.278431, 0.278431, 0.278431, 1 )
+font_data = ExtResource( 6 )
+
+[sub_resource type="StyleBoxFlat" id=12]
+bg_color = Color( 0.138062, 0.304688, 0.189331, 1 )
+
+[sub_resource type="StyleBoxFlat" id=11]
+bg_color = Color( 0.27451, 0.631373, 0.384314, 1 )
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color( 0.164706, 0.317647, 0.0156863, 1 )
+border_blend = true
+
+[sub_resource type="DynamicFont" id=20]
+size = 50
+font_data = ExtResource( 5 )
+
+[sub_resource type="StyleBoxFlat" id=22]
+bg_color = Color( 0.556863, 0.137255, 0.137255, 1 )
+
+[sub_resource type="StyleBoxFlat" id=24]
+bg_color = Color( 0.8, 0.145098, 0.145098, 1 )
+
+[sub_resource type="DynamicFont" id=26]
+size = 55
+font_data = ExtResource( 5 )
+
+[node name="HUD" type="CanvasLayer"]
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_horizontal_guides_": [ -678.0 ],
+"_edit_vertical_guides_": [ -767.0 ]
+}
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_left = 0.029
@@ -80,17 +127,17 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -288.5
-margin_top = -120.0
-margin_right = 288.5
-margin_bottom = 120.0
-theme = ExtResource( 5 )
-custom_styles/panel = SubResource( 10 )
+margin_left = -645.5
+margin_top = -268.0
+margin_right = 645.5
+margin_bottom = 268.0
+theme = SubResource( 8 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
-margin_right = 585.0
-margin_bottom = 240.0
-theme = ExtResource( 5 )
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 1284.0
+margin_bottom = 529.0
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/HBoxContainer"]
 margin_right = 120.0
@@ -109,92 +156,277 @@ margin_right = 120.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 120, 50 )
 
-[node name="HSeparator" type="VSeparator" parent="PanelContainer/HBoxContainer"]
+[node name="VSeparator2" type="VSeparator" parent="PanelContainer/HBoxContainer"]
 margin_left = 124.0
 margin_right = 128.0
-margin_bottom = 240.0
+margin_bottom = 522.0
+rect_pivot_offset = Vector2( -794, -30 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/HBoxContainer"]
 margin_left = 132.0
-margin_right = 585.0
-margin_bottom = 240.0
+margin_right = 1277.0
+margin_bottom = 522.0
+size_flags_horizontal = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/HBoxContainer/VBoxContainer"]
-margin_right = 453.0
-margin_bottom = 62.0
+margin_right = 1145.0
+margin_bottom = 68.0
 
-[node name="SwingButton" type="CheckBox" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_right = 85.0
-margin_bottom = 62.0
+[node name="Button" type="CheckBox" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_right = 113.0
+margin_bottom = 68.0
+size_flags_horizontal = 3
 custom_fonts/font = SubResource( 9 )
-custom_styles/focus = SubResource( 11 )
 text = "🔁"
 
 [node name="VSeparator" type="VSeparator" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_left = 89.0
-margin_right = 93.0
-margin_bottom = 62.0
+visible = false
+margin_left = 116.0
+margin_right = 120.0
+margin_bottom = 68.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_left = 97.0
-margin_right = 216.0
-margin_bottom = 62.0
+visible = false
+margin_left = 103.0
+margin_right = 229.0
+margin_bottom = 76.0
+size_flags_horizontal = 3
 
-[node name="SpeedSeriesCheckBox" type="CheckBox" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
-margin_right = 119.0
-margin_bottom = 23.0
-custom_styles/focus = SubResource( 14 )
+[node name="CheckBox" type="CheckBox" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+margin_right = 126.0
+margin_bottom = 32.0
+custom_fonts/font = ExtResource( 2 )
 pressed = true
 text = "Speed Series"
 
 [node name="HSeparator" type="HSeparator" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 27.0
-margin_right = 119.0
-margin_bottom = 31.0
+margin_top = 36.0
+margin_right = 126.0
+margin_bottom = 40.0
 
-[node name="SizeSeriesCheckBox" type="CheckBox" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 35.0
-margin_right = 119.0
-margin_bottom = 58.0
-custom_styles/focus = SubResource( 15 )
+[node name="CheckBox2" type="CheckBox" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+margin_top = 44.0
+margin_right = 126.0
+margin_bottom = 76.0
+custom_fonts/font = ExtResource( 2 )
 text = "Size Series"
 
+[node name="VSeparator2" type="VSeparator" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 117.0
+margin_right = 121.0
+margin_bottom = 68.0
+rect_pivot_offset = Vector2( -794, -30 )
+
 [node name="DirectionOptionButton" type="OptionButton" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_left = 220.0
-margin_right = 297.0
-margin_bottom = 62.0
+margin_left = 125.0
+margin_right = 239.0
+margin_bottom = 68.0
 rect_min_size = Vector2( 50, 0 )
 size_flags_horizontal = 3
 theme = SubResource( 5 )
 custom_fonts/font = SubResource( 3 )
-custom_styles/focus = SubResource( 12 )
 text = "➡️"
 items = [ "➡️", null, false, 0, null, "↘️", null, false, 1, null, "⬇️", null, false, 2, null, "↙️", null, false, 3, null, "⬅️", null, false, 4, null, "↖️", null, false, 5, null, "⬆️", null, false, 6, null, "↗️", null, false, 7, null ]
 selected = 0
 
-[node name="Start" type="Button" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_left = 301.0
+[node name="VSeparator3" type="VSeparator" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 243.0
+margin_right = 247.0
+margin_bottom = 68.0
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 251.0
+margin_right = 368.0
+margin_bottom = 68.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+margin_right = 117.0
+margin_bottom = 29.0
+custom_fonts/font = SubResource( 10 )
+text = "Background"
+
+[node name="ColorBackgroundButton" type="ColorPickerButton" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+margin_top = 33.0
+margin_right = 117.0
+margin_bottom = 68.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = SubResource( 14 )
+text = "Background color"
+color = Color( 1, 1, 1, 1 )
+edit_alpha = false
+
+[node name="VSeparator4" type="VSeparator" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 372.0
 margin_right = 376.0
-margin_bottom = 62.0
+margin_bottom = 68.0
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 380.0
+margin_right = 494.0
+margin_bottom = 68.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer3"]
+margin_right = 114.0
+margin_bottom = 29.0
+custom_fonts/font = SubResource( 10 )
+text = "Optotype"
+
+[node name="ColorOptotype" type="ColorPickerButton" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer3"]
+margin_top = 33.0
+margin_right = 114.0
+margin_bottom = 68.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VSeparator5" type="VSeparator" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 498.0
+margin_right = 502.0
+margin_bottom = 68.0
+
+[node name="VBoxContainer5" type="VBoxContainer" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 506.0
+margin_right = 641.0
+margin_bottom = 68.0
+
+[node name="Label2" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer5"]
+margin_right = 135.0
+margin_bottom = 29.0
+custom_fonts/font = SubResource( 10 )
+text = "User distance"
+
+[node name="SpinBox2" type="SpinBox" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer5"]
+margin_top = 33.0
+margin_right = 135.0
+margin_bottom = 68.0
+size_flags_horizontal = 11
+size_flags_vertical = 11
+theme = SubResource( 16 )
+min_value = 1.0
+max_value = 200.0
+value = 30.0
+exp_edit = true
+suffix = "cm"
+
+[node name="VSeparator7" type="VSeparator" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 645.0
+margin_right = 649.0
+margin_bottom = 68.0
+
+[node name="VBoxContainer4" type="VBoxContainer" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 653.0
+margin_right = 767.0
+margin_bottom = 68.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label2" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer4"]
+margin_right = 114.0
+margin_bottom = 29.0
+custom_fonts/font = SubResource( 10 )
+text = "Screen size"
+
+[node name="SpinBox" type="SpinBox" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer4"]
+margin_top = 33.0
+margin_right = 114.0
+margin_bottom = 68.0
+size_flags_horizontal = 11
+size_flags_vertical = 11
+theme = SubResource( 16 )
+min_value = 10.0
+value = 27.0
+exp_edit = true
+suffix = "inches"
+
+[node name="VSeparator6" type="VSeparator" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 771.0
+margin_right = 775.0
+margin_bottom = 68.0
+
+[node name="VBoxContainer6" type="VBoxContainer" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 779.0
+margin_right = 893.0
+margin_bottom = 68.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label2" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer6"]
+margin_right = 114.0
+margin_bottom = 29.0
+custom_fonts/font = SubResource( 10 )
+text = "Max errors"
+
+[node name="SpinBox" type="SpinBox" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer6"]
+margin_top = 33.0
+margin_right = 114.0
+margin_bottom = 68.0
+size_flags_horizontal = 11
+size_flags_vertical = 11
+theme = SubResource( 16 )
+value = 3.0
+suffix = "times"
+
+[node name="VSeparator9" type="VSeparator" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 897.0
+margin_right = 901.0
+margin_bottom = 68.0
+
+[node name="VBoxContainer7" type="VBoxContainer" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 905.0
+margin_right = 1019.0
+margin_bottom = 68.0
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label2" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer7"]
+margin_right = 114.0
+margin_bottom = 29.0
+custom_fonts/font = SubResource( 10 )
+text = "Iterations"
+
+[node name="SpinBox" type="SpinBox" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer7"]
+margin_top = 33.0
+margin_right = 114.0
+margin_bottom = 68.0
+size_flags_horizontal = 11
+size_flags_vertical = 11
+theme = SubResource( 16 )
+value = 3.0
+suffix = "times"
+
+[node name="VSeparator8" type="VSeparator" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 1023.0
+margin_right = 1027.0
+margin_bottom = 68.0
+
+[node name="Start" type="Button" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 1031.0
+margin_right = 1145.0
+margin_bottom = 68.0
 rect_min_size = Vector2( 75, 0 )
-custom_styles/focus = SubResource( 13 )
+size_flags_horizontal = 3
+custom_fonts/font = SubResource( 13 )
+custom_styles/hover = SubResource( 12 )
+custom_styles/normal = SubResource( 11 )
 text = "Start"
 icon_align = 1
 
 [node name="HSeparator" type="HSeparator" parent="PanelContainer/HBoxContainer/VBoxContainer"]
-margin_top = 66.0
-margin_right = 453.0
-margin_bottom = 70.0
+margin_top = 72.0
+margin_right = 1145.0
+margin_bottom = 76.0
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/HBoxContainer/VBoxContainer"]
-margin_top = 74.0
-margin_right = 453.0
-margin_bottom = 157.0
+margin_top = 80.0
+margin_right = 1145.0
+margin_bottom = 193.0
 
 [node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
-margin_right = 400.0
-margin_bottom = 83.0
-rect_min_size = Vector2( 400, 50 )
+margin_right = 1067.0
+margin_bottom = 113.0
+size_flags_horizontal = 3
 follow_focus = true
 scroll_vertical_enabled = false
 
@@ -205,36 +437,34 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
-margin_left = 404.0
-margin_right = 453.0
-margin_bottom = 83.0
+margin_left = 1071.0
+margin_right = 1145.0
+margin_bottom = 113.0
 
-[node name="NewSingleTestButton" type="Button" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
-margin_right = 49.0
-margin_bottom = 25.0
-theme = ExtResource( 5 )
-custom_styles/focus = SubResource( 16 )
-text = "new"
+[node name="Button2" type="Button" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+margin_right = 74.0
+margin_bottom = 35.0
+custom_fonts/font = SubResource( 10 )
+text = "New"
 
 [node name="Button5" type="Button" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
-margin_top = 29.0
-margin_right = 49.0
-margin_bottom = 54.0
-theme = ExtResource( 5 )
-custom_styles/focus = SubResource( 17 )
-text = "save"
+margin_top = 39.0
+margin_right = 74.0
+margin_bottom = 74.0
+custom_fonts/font = SubResource( 10 )
+text = "Save"
 
-[node name="DeleteSingleTestButton" type="Button" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
-margin_top = 58.0
-margin_right = 49.0
-margin_bottom = 83.0
-custom_styles/focus = SubResource( 18 )
-text = "delete"
+[node name="Button4" type="Button" parent="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+margin_top = 78.0
+margin_right = 74.0
+margin_bottom = 113.0
+custom_fonts/font = SubResource( 10 )
+text = "Delete"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/HBoxContainer/VBoxContainer"]
-margin_top = 205.0
+margin_top = 197.0
 margin_right = 1145.0
-margin_bottom = 278.0
+margin_bottom = 254.0
 alignment = 1
 
 [node name="Label" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
@@ -247,11 +477,12 @@ align = 1
 [node name="HBoxContainer3" type="HBoxContainer" parent="PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
 margin_top = 33.0
 margin_right = 1145.0
-margin_bottom = 73.0
+margin_bottom = 57.0
 size_flags_vertical = 0
 alignment = 1
 
 [node name="CheckButton" type="CheckButton" parent="PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3"]
+visible = false
 margin_left = 468.0
 margin_right = 544.0
 margin_bottom = 40.0
@@ -259,18 +490,29 @@ align = 1
 icon_align = 1
 
 [node name="SpinBox" type="LineEdit" parent="PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3"]
-margin_left = 548.0
-margin_right = 648.0
-margin_bottom = 40.0
+margin_left = 502.0
+margin_right = 602.0
+margin_bottom = 24.0
 rect_min_size = Vector2( 100, 5 )
 script = ExtResource( 7 )
 
 [node name="Label" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3"]
-margin_left = 652.0
-margin_top = 13.0
-margin_right = 677.0
-margin_bottom = 27.0
+margin_left = 606.0
+margin_top = 5.0
+margin_right = 631.0
+margin_bottom = 19.0
 text = "test"
+
+[node name="VSeparator" type="VSeparator" parent="PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3"]
+margin_left = 635.0
+margin_right = 639.0
+margin_bottom = 24.0
+
+[node name="Label2" type="Label" parent="PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3"]
+margin_left = 643.0
+margin_top = 5.0
+margin_right = 643.0
+margin_bottom = 19.0
 
 [node name="Button" type="Button" parent="."]
 anchor_left = 1.0
@@ -286,33 +528,55 @@ visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -34.5
-margin_top = -24.0
-margin_right = 34.5
-theme = ExtResource( 5 )
+anchor_bottom = 0.5
+margin_left = -709.376
+margin_top = -343.26
+margin_right = 709.376
+margin_bottom = 343.26
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -90.0
+margin_top = -38.0
+margin_bottom = 38.0
+
+[node name="CheckBox" type="CheckBox" parent="VBoxContainer"]
+visible = false
+margin_right = 90.0
+margin_bottom = 40.0
+custom_colors/font_color_disabled = Color( 0, 0, 0, 1 )
+custom_colors/font_color_focus = Color( 0, 0, 0, 1 )
+custom_colors/font_color_hover_pressed = Color( 0, 0, 0, 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color_hover = Color( 0, 0, 0, 1 )
+custom_colors/font_color_pressed = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 26 )
 text = "Debug"
 
-[node name="ExitButton" type="Button" parent="."]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -35.0
-margin_bottom = 25.0
-rect_rotation = -0.0351492
-theme = ExtResource( 5 )
-text = "Exit"
+[node name="LinkButton" type="LinkButton" parent="VBoxContainer"]
+margin_right = 90.0
+margin_bottom = 32.0
+custom_colors/font_color_focus = Color( 0, 0, 0, 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_color_hover = Color( 0.337255, 0.337255, 0.337255, 1 )
+custom_fonts/font = SubResource( 26 )
+text = "Help"
 
-[node name="SaveView" parent="." instance=ExtResource( 4 )]
-
-[connection signal="show_override" from="." to="SaveView" method="_on_HUD_show_override"]
-[connection signal="toggled" from="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/SwingButton" to="." method="_on_SwingButton_toggled"]
-[connection signal="pressed" from="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/SpeedSeriesCheckBox" to="." method="_on_SpeedSeriesCheckBox_pressed"]
-[connection signal="pressed" from="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/SizeSeriesCheckBox" to="." method="_on_SizeSeriesCheckBox_pressed"]
+[connection signal="show_override" from="." to="Save" method="_on_HUD_show_override"]
+[connection signal="toggled" from="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/Button" to="." method="_on_Button_toggled"]
+[connection signal="pressed" from="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox" to="." method="_on_CheckBox_pressed"]
+[connection signal="pressed" from="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/CheckBox2" to="." method="_on_CheckBox2_pressed"]
 [connection signal="item_selected" from="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/DirectionOptionButton" to="." method="_on_DirectionOptionButton_item_selected"]
 [connection signal="pressed" from="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/Start" to="." method="_on_Start_pressed"]
-[connection signal="pressed" from="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/NewSingleTestButton" to="." method="_on_NewSingleTestButton_pressed"]
+[connection signal="pressed" from="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/Button2" to="." method="_on_Button2_pressed"]
 [connection signal="pressed" from="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/Button5" to="." method="_save_test_pressed"]
-[connection signal="pressed" from="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/DeleteSingleTestButton" to="." method="_on_DeleteSingleTestButton_pressed"]
-[connection signal="pressed" from="ExitButton" to="." method="_on_ExitButton_pressed"]
-[connection signal="override" from="SaveView" to="." method="_on_SaveView_override"]
-[connection signal="save_is_done" from="SaveView" to="." method="_OnSaveView__done"]
+[connection signal="pressed" from="PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/Button4" to="." method="_on_Button4_pressed"]
+[connection signal="pressed" from="PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/CheckButton" to="." method="_on_CheckButton_pressed"]
+[connection signal="text_changed" from="PanelContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer3/SpinBox" to="." method="_on_SpinBox_text_changed"]
+[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
+[connection signal="override" from="Save" to="." method="_on_Save_override"]
+[connection signal="save_is_done" from="Save" to="." method="_on_Control_save_is_done"]
+[connection signal="pressed" from="VBoxContainer/LinkButton" to="." method="_on_LinkButton_pressed"]

@@ -26,6 +26,8 @@ margin_bottom = 42.0
 [node name="Label" type="Label" parent="VBoxContainer"]
 margin_right = 258.0
 margin_bottom = 14.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 text = "Name:"
 align = 2
 
@@ -46,6 +48,7 @@ text = "Save"
 margin_top = 70.0
 margin_right = 258.0
 margin_bottom = 84.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 align = 2
 
 [node name="YesOrNoVBoxContainer" type="VBoxContainer" parent="."]
@@ -62,7 +65,7 @@ alignment = 1
 [node name="Label" type="Label" parent="YesOrNoVBoxContainer"]
 margin_right = 159.0
 margin_bottom = 14.0
-text = "Do you want to override?"
+custom_colors/font_color = Color( 0, 0, 0, 1 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="YesOrNoVBoxContainer"]
 margin_top = 18.0
@@ -71,14 +74,19 @@ margin_bottom = 38.0
 alignment = 1
 
 [node name="YesButton" type="Button" parent="YesOrNoVBoxContainer/HBoxContainer"]
-margin_left = 46.0
-margin_right = 80.0
+margin_left = 44.0
+margin_right = 78.0
 margin_bottom = 20.0
 text = "yes"
 
+[node name="HSplitContainer" type="HSplitContainer" parent="YesOrNoVBoxContainer/HBoxContainer"]
+margin_left = 82.0
+margin_right = 82.0
+margin_bottom = 20.0
+
 [node name="NoButton" type="Button" parent="YesOrNoVBoxContainer/HBoxContainer"]
-margin_left = 84.0
-margin_right = 112.0
+margin_left = 86.0
+margin_right = 114.0
 margin_bottom = 20.0
 text = "no"
 

@@ -25,10 +25,9 @@ func _ready():
 	var color_data_background = Color.white
 	var color_data_optotype = Color.black
 	var save_game = File.new()
-	if  save_game.file_exists("user://save.save"):
-		save_game.open("user://save.save", File.READ)
-		var node_data = parse_json(save_game.get_line())
-		$HUD.initialize(node_data as Dictionary)
+	if  save_game.file_exists("user://runs.save"):
+		save_game.open("user://runs.save", File.READ)
+		node_data = parse_json(save_game.get_line())
 		save_game.close()
 	
 	save_game = File.new()
@@ -82,14 +81,25 @@ func _ready():
 		Vector2(0,1),
 		Vector2(0,0),#Vector2(-1,1)
 	]
+	$HUD.visible = false
+	$Creditos.visible = true
+	yield(get_tree().create_timer(2.0), "timeout")
+	
+	$HUD.visible = true
+	$Creditos.visible = false
 func correct_scale(scale):
 	var screenSizeInches = $HUD/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer4/SpinBox.value
 	
-func start_game():
-	$ColorRect.color = Color(1, 1, 1, 1)
-	var index = $HUD.state
-	var swing = $HUD.swing
-	run_mode = $HUD.mode
+	
+func start_game(mode, _list):
+	$ColorRect.color = Color($HUD.get_background_color())
+	var optotype_color = Color($HUD.get_optotype_color())
+	var screenSizeInches = $HUD/PanelContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer4/SpinBox.value
+	var index = int(mode[2])
+	var swing = int(mode[0])
+	run_mode = int(mode[1])
+	incrementType = int(mode[3])
+	var speed = float(mode.split("///")[0].substr(4, -1))
 	var rotationIteration = 5
 	$HUD.hide()
 	var s = resolution * 1.0
@@ -109,7 +119,7 @@ func start_game():
 	
 func _process(_delta):
 	if Input.is_action_pressed("escape"):
-		$ColorRect.color = Color(0,0,0, 1)
+		$Octo.hide()
 		$Octo.stop()
 		$DebugMode.hide()
 		$HUD.show()
